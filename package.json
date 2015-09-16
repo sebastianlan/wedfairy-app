@@ -1,0 +1,19 @@
+{
+  "name": "wedfairy_app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "ejs": "~0.8.8",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "compression": "~1.5.2",
+    "requirejs": "~2.1.20"
+  }
+}

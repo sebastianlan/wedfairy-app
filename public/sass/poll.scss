@@ -1,0 +1,313 @@
+@charset "utf-8";
+@import "global";
+//「投票」全局变量
+$pollHeaderColor:#fcab52;
+$pollBodyBackgroundColor:#f0f0f0;
+$pollFontColor:#7b7b7d;
+$pollTextColor:#50d2c2;
+$pollImgColor:#ff3366;
+$pollSubmitColor:#ff3366;
+$pollSelectTopFontColor:#5b6779;
+$pollSelectBottomBackgroundColor:#fcab52;
+//「投票」全局样式
+.poll-header{
+  @extend .appHeader;
+  background-color:$pollHeaderColor;
+  background-image: url(../images/poll_header.jpg);
+  background-size:77.73%;
+  a {
+    @extend .appHeaderLink;
+    i{
+      @extend .appHeaderLinkIcon;
+    }
+  }
+}
+.poll-body{
+  @extend .appBody;
+  background-color:$pollBodyBackgroundColor;
+  color:$pollFontColor;
+}
+.poll-text-submit{
+  @extend .appSubmitButton;
+  background-color:$pollTextColor;
+}
+.poll-img-submit,.poll-submit{
+  @extend .appSubmitButton;
+  background-color: $pollImgColor;
+}
+.poll-total{
+  width:100%;height:53.28px;
+  background-color:#fff;
+  div{
+    label{
+      @extend .appLabel;
+      width:100%;height:40%;margin:0;
+      color:#a3a3a3;
+    }
+  }
+}
+.poll-total-left{
+  width:50%;height:100%;padding-top:8px;
+  border-right:1px solid #f0f0f0;float:left;
+}
+.poll-total-right{
+  width:50%;height:100%;padding-top:8px;
+  border-left:1px solid #f0f0f0;float:left;
+}
+.poll-title{
+  width:100%;height:auto;padding:37.44px 12% 17.76px;
+}
+.poll-message{
+  width:100%;height:auto;padding:25.44px 12%;
+  background-color:#fff;position:relative;
+  i{
+    font-size:17.28px;
+  }
+}
+.quote-left{
+  position:absolute;top:12px;left:5%;
+}
+.quote-right{
+  position:absolute;bottom:12px;right:5%;
+}
+//「投票」选择投票类型（文字投票 / 图片投票）页面
+.poll-select-top{
+  width:100%;padding-top:23px;
+  background-color:#fff;color:$pollSelectTopFontColor;
+  a{
+    @extend .appHeaderLink;
+    i{
+      font-size:22px;color:#5b677a;
+    }
+  }
+}
+.poll-select-bottom{
+  width:100%;
+  background-color:$pollSelectBottomBackgroundColor;color:#fff;
+}
+.poll-select-text,.poll-select-img{
+  width:20%;height:auto;margin:0 auto;text-align:center;
+  i{
+    font-size:45px;
+  }
+  p{
+    font-size:12px;margin-top:10px;
+  }
+}
+//「投票」设置页面
+#poll-title{
+  @extend .appInput;
+  width:83.33%;height:42.24px;
+  margin-top:43.20px;padding:0 5.07%;
+}
+#poll-message{
+  @extend .appInput;
+  width:83.33%;height:116.16px;
+  margin-top:18.24px;padding:5.07%;
+}
+.poll-option-list{
+  width:100%;height:auto;
+  margin-top:52.32px;padding:0 5%;
+  background-color:#fff;
+}
+.poll-text-option{
+  width:100%;height:52.32px;
+  border-bottom:2px solid #f3f3f4;
+  text-align:left;
+  label{
+    @extend .appLabel;
+    line-height:52.32px;
+  }
+  input{
+    @extend .appInput;
+    margin-left:4px;
+  }
+}
+.poll-img-option{
+  width:100%;height:auto;
+  border-bottom:2px solid #f3f3f4;
+  text-align:left;
+  label{
+    @extend .appLabel;
+    width:32.30%;float:left;
+    line-height:52.32px;
+
+  }
+  input{
+    @extend .appInput;
+    width:67.70%;float:left;
+  }
+}
+.text-option-add{
+  width:100%;height:52.32px;
+  background-color:#fff;
+  i{
+    font-size:21.12px;line-height:52.32px;
+    color:$pollTextColor;
+  }
+}
+.img-option-add{
+  width:100%;height:52.32px;
+  background-color:#fff;
+  i{
+    font-size:21.12px;line-height:52.32px;
+    color:$pollImgColor;
+  }
+}
+.poll-deadline-wrapping{
+  width:100%;height:54.80px;
+  margin-top:55.68px;padding:0 5%;
+  background-color:#fff;
+}
+.poll-deadline{
+  width:100%;height:100%;
+  border-bottom:2px solid #f3f3f4;
+  text-align:left;line-height:54.80px;
+  label{
+    @extend .appLabel;
+  }
+}
+#poll-deadline{
+  @extend .appInput;
+  width:60%;
+}
+.poll-type{
+  width:100%;height:52.80px;padding:0 5%;
+  background-color:#fff;text-align:left;line-height:52.80px;
+  label{
+    @extend .appLabel;
+  }
+}
+#poll-type{
+  @extend .appInput;
+  width:60%;
+}
+//「投票」投票页面
+.poll-notice{
+  @extend .highlight;
+  width:100%;height:auto;
+  padding:52.8px 36px;
+}
+.poll-radio,.poll-checkbox{
+  width:84%;height:auto;text-align:left;
+  margin:41.28px auto 5.76px;padding-left:5%;
+}
+.poll-show-option{
+  width:100%;height:auto;padding:13.44px 0;
+  input{
+    width:15%;float:left;
+    @extend .appInput;
+  }
+  label{
+    width:85%;float:left;
+  }
+  img{
+    width:70%;height:auto;float:left;
+  }
+}
+
+//「投票」投票结果页面
+
+.poll-result-list{
+  width:74.40%;height:auto;
+  margin:41.76px auto 0;
+}
+.poll-result-option{
+  width:100%;height:auto;
+  margin-bottom:28.32px;
+}
+.result-option-left{
+  width:30%;float:left;
+  font-size:28.8px;line-height:25px;text-align:left;
+  word-wrap:break-word;word-break:break-all;
+}
+.result-option-color{
+  width:10px;height:10px;
+  margin-top:5px;margin-left:10px;
+}
+.result-option-right{
+  width:70%;float:left;
+  padding-left:10px;
+  text-align:left;
+}
+
+
+.poll-result-chart{
+  width:84.00%;height:auto;
+  margin:39.84px auto 54.24px;
+}
+.chart-bar{
+  height:12px;
+}
+.color-1{
+  background-color:#50d2c2;
+}
+.color-2{
+  background-color:#9794ff;
+}
+.color-3{
+  background-color:#d667cd;
+}
+.color-4{
+  background-color:#fa647f;
+}
+.color-5{
+  background-color:#6bd696;
+}
+.color-6{
+  background-color:#58a2ec;
+}
+.color-7{
+  background-color:#f2ca68;
+}
+.color-8{
+  background-color:#9675cc;
+}
+.color-9{
+  background-color:#74d7e6;
+}
+.color-10{
+  background-color:#f18f68;
+}
+
+.voter-header{
+  width:100%;height:57.60px;
+  padding:39.36px 4.8% 0;
+  text-align:left;
+  background-color:#fff;
+  i{
+    color:#ff607d;
+  }
+}
+.voter-list{
+  width:100%;height:auto;
+  padding:0 4.8%;
+  background-color:#fff;
+}
+.voter-details{
+  width:100%;height:53.28px;
+  margin:0 auto 11.04px;
+  background-color:#fff;
+  img{
+    width:34.56px;height:34.56px;
+    margin:9.6px 12.48px 0 0;
+    float:left;
+  }
+  div{
+    width:70%;height:40px;margin-top:7.68px;
+    text-align:left;float:left;
+    label{
+      @extend .appLabel;
+      width:100%;height:50%;
+      margin:0;overflow:hidden;
+      span{
+        color:$highlightColor;
+      }
+    }
+  }
+}
+.details-date{
+  font-size:14px;line-height:10px;color:#a2a2a2;
+}
+
+

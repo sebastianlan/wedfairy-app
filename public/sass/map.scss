@@ -1,0 +1,127 @@
+@charset "utf-8";
+@import "global";
+//「地图」全局变量
+$mapHeaderColor:#54c08a;
+$mapBodyBackgroundColor:#f4f4f4;
+$mapFontColor:#7b7b7d;
+$mapShowFontColor:#353535;
+$mapSubmitColor:#ff3366;
+$mapBaiduMapColor:#3e82f7;
+$mapBaiduMapButtonBorderColor:#2567da;
+//「地图」全局样式
+.map-header{
+  @extend .appHeader;
+  background-color:$mapHeaderColor;
+  background-image:url(../images/map_header.jpg);
+  background-size:77.20%;
+  a {
+    @extend .appHeaderLink;
+    i{
+      @extend .appHeaderLinkIcon;
+    }
+  }
+}
+.map-body{
+  @extend .appBody;
+  background-color:$mapBodyBackgroundColor;
+  color:$mapFontColor;
+}
+.map-submit{
+  @extend .appSubmitButton;
+  background-color:$mapSubmitColor;
+}
+//「地图」设置页面
+#map-location{
+  @extend .appInput;
+  width:94.93%;height:72.00px;
+  margin-top:55.20px;padding:5.07%;
+}
+#map-address{
+  @extend .appInput;
+  width:94.93%;height:72.00px;
+  margin-top:28.32px;padding:5.07%;
+}
+.map-use{
+  width:100%;height:55.68px;margin-top:52.32px;
+  border:none;outline:none;
+  background-color:$mapBaiduMapColor;color:#fff;
+  i{
+    font-size:20px;
+  }
+}
+.map-img{
+  width:100%;height:auto;
+}
+.map-marker{
+  width:40px;height:40px;margin-top:-40px;margin-left:-20px;
+  position:absolute;top:0;left:50%;z-index:1;display:none;
+}
+#map-message{
+  @extend .appInput;
+  width:94.93%;height:260.08px;
+  margin-top:51.84px;padding:5.07%;
+}
+//「地图」展示页面
+.map-show-body{
+  @extend .appBody;
+  color:$mapShowFontColor;
+}
+.map-show-location{
+  width:66.67%;height:auto;
+  margin:98.40px auto 0;
+}
+.map-show-flower{
+  width:21.73%;height:auto;
+  margin-top:16.80px;
+}
+.map-show-address{
+  width:66.67%;height:auto;
+  margin:31.68px auto 0;
+}
+.map-show-route{
+  width:44.00%;height:43.68px;
+  margin-top:57.60px;
+  background-color:$mapBaiduMapColor;color:#fff;
+  border:1px solid $mapBaiduMapButtonBorderColor;border-radius:21.84px;
+  outline:none;
+}
+#baidu-map{
+  width:95.73%;margin:23.52px auto 0;overflow:hidden;
+}
+.map-show-how-come{
+  width:26.67%;height:auto;
+  margin-top:54.72px;
+}
+.map-show-message{
+  width:78.13%;height:auto;
+  margin:16.32px auto 158.40px;padding-top:31.20px;
+  border-top:1px solid #c4c4c4;
+  text-align:left;
+}
+//「地图」地点标注页面
+.map-mark-header{
+  width:100%;height:44px;border:1px solid #a3a3a3;
+  font-size:16px;line-height:44px;text-align:center;color:#826c61;
+  a{
+    display:block;width:44px;height:44px;position:absolute;
+    i{
+      font-size:22px;line-height:30px;color:#826c61;
+    }
+  }
+}
+#baidu-map-mark{
+  width:100%;margin:0;overflow:hidden;
+}
+.map-mark-marker{
+  width:40px;height:40px;margin-top:-40px;margin-left:-20px;
+  position:absolute;top:50%;left:50%;z-index:1;
+}
+.map-mark-footer{
+  width:100%;height:44px;border:1px solid #a3a3a3;
+  font-size:15px;text-align:center;color:#555;
+}
+.map-mark-submit{
+  @extend .appInput;
+  margin-top:8.5px;
+  background-color:#fff;
+}

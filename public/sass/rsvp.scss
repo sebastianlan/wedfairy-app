@@ -1,0 +1,158 @@
+@charset "utf-8";
+@import "global";
+//「宾客管理」全局变量
+$rsvpHeaderColor:#8d88ff;
+$rsvpBodyBackgroundColor:#f0f0f0;
+$rsvpFontColor:#7b7b7d;
+$rsvpSubmitColor:#4fd2c2;
+//「宾客管理」全局样式
+.rsvp-header{
+  @extend .appHeader;
+  background-color:$rsvpHeaderColor;
+  background-image: url(../images/rsvp_header.jpg);
+  background-size:81.47%;
+  a {
+    @extend .appHeaderLink;
+    i{
+      @extend .appHeaderLinkIcon;
+    }
+  }
+}
+.rsvp-body{
+  @extend .appBody;
+  background-color:$rsvpBodyBackgroundColor;
+  color:$rsvpFontColor;
+}
+.rsvp-submit{
+  @extend .appSubmitButton;
+  background-color:$rsvpSubmitColor;
+}
+//「宾客管理」设置页面
+#rsvp-message{
+  @extend .appInput;
+  width:83.07%;height:182.4px;
+  margin-top:40.32px;padding:5.07%;
+  box-shadow:0 -1px 10px #888;
+}
+.rsvp-deadline{
+  width:100%;height:53.28px;margin-top:39.36px;padding:0 8%;
+  text-align:left;line-height:53.28px;  background-color:#fff;
+  label{
+    @extend .appLabel;
+  }
+}
+#rsvp-deadline{
+  @extend .appInput;
+  width:60%;
+}
+//「宾客管理」添加宾客页面
+.add-guests-deadline{
+  width:100%;height:53.28px;
+  padding-top:8px;
+  background-color:#fff;
+  label{
+    @extend .appLabel;
+    width:100%;height:40%;
+    margin:0;color:#a3a3a3;
+  }
+}
+.add-guests-message{
+  width:100%;height:auto;
+  padding:52.8px 36px;
+  text-align:left;
+  text-indent:2em;
+}
+.add-guests-notice{
+  @extend .highlight;
+  width:100%;height:auto;
+  padding:0 36px 52.8px;
+}
+#guests-name{
+  @extend .appInput;
+  width:45%;height:42.24px;
+  margin-left:8%;margin-right:47%;padding:3.5%;
+}
+.guests-people{
+   width:100%;height:32.16px;
+   margin-top:12.96px;padding-left:8%;
+  label{
+    @extend .appLabel;
+    padding-left:5px;
+    line-height:32.16px;
+    float:left;
+  }
+ }
+#guests-people{
+  @extend .appInput,.highlight;
+  width:13%;height:100%;
+  text-align:center;
+  float:left;
+}
+//「宾客管理」宾客列表页面
+.rsvp-dashboard-total{
+  width:100%;height:53.28px;
+  background-color:#fff;
+  div{
+    label{
+      @extend .appLabel;
+      width:100%;height:40%;
+      margin:0;color:#a3a3a3;
+    }
+  }
+}
+.dashboard-total-left{
+  width:50%;height:100%;padding-top:8px;
+  border-right:1px solid #f0f0f0;float:left;
+}
+.dashboard-total-right{
+  width:50%;height:100%;padding-top:8px;
+  border-left:1px solid #f0f0f0;float:left;
+}
+.dashboard-rsvp-header{
+  width:100%;height:28.8px;
+  margin-top:42.72px;padding:0 3.07%;
+  text-align:left;line-height:28.8px;
+  i{
+    color:#ff607d;
+  }
+}
+.dashboard-guests-list{
+  width:100%;height:auto;
+}
+.dashboard-guests-details{
+  width:93.87%;height:53.28px;
+  margin:0 auto 11.04px;
+  background-color:#fff;
+}
+.guests-details-left{
+  width:66%;height:100%;float:left;
+  img{
+    width:34.56px;height:34.56px;
+    margin:9.6px 12.48px 0 10.08px;
+    float:left;
+  }
+  div{
+    width:70%;height:40px;margin-top:7.68px;
+    text-align:left;float:left;
+    label{
+      @extend .appLabel;
+      width:100%;height:50%;
+      margin:0;overflow:hidden;
+      span{
+        color:$highlightColor;
+      }
+    }
+  }
+}
+.details-date{
+  font-size:14px;line-height:10px;color:#a2a2a2;
+}
+.guests-details-right{
+  width:34%;height:37.92px;margin-top:7.68px;
+  border-left:2px solid #f0f0f0;float:left;
+  label{
+    @extend .appLabel;
+    margin:0;padding:0 2px;
+    font-size:14px;line-height:37.92px;
+  }
+}

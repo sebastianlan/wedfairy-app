@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/map.css">
+</head>
+<body>
+    <div class="map-mark-header">
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-angle-left"></i></a>确定地点
+    </div>
+    <div id="baidu-map-mark"></div>
+    <img class="map-mark-marker" src="<%= static_url %>images/map_marker.png"/>
+    <div class="map-mark-footer">
+        <button class="map-mark-submit" type="button" onclick="javascript:map_mark_submit();">
+            <i class="iconfont icon-check"></i> 确定
+        </button>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=qNG8rBhokW7RzZnaRN9ubujq"></script>
+<script>
+    function map_mark_submit(){
+        //保存坐标到 localStorage
+        localStorage.setItem("map_lng",map.getCenter().lng);
+        localStorage.setItem("map_lat",map.getCenter().lat);
+        //返回到地图设置页面
+        history.back();
+    }
+    //根据屏幕高度计算地图高度
+    var map_mark_body_height = document.body.scrollHeight - 44 * 2;
+    document.getElementById("baidu-map-mark").style.height = map_mark_body_height + "px";
+    //从 localStorage 中获取地址
+    var address = localStorage.getItem("map_address");
+    //创建地图实例
+    var map = new BMap.Map("baidu-map-mark");
+    var point = new BMap.Point(116.331398, 39.897445);
+    map.centerAndZoom(point, 12);
+    //将地址解析结果显示在地图上,并调整地图视野
+    var myGeo = new BMap.Geocoder();
+    myGeo.getPoint(String(address), function (point) {
+        if (point) {
+            map.centerAndZoom(point, 16);
+        } else {
+            alert("没有找到您填写的地址哦，请返回并重新填写");
+        }
+    }, "北京市");
+</script>
+</html>
