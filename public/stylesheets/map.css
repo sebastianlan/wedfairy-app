@@ -56,9 +56,9 @@ input[type="date"], select {
   clear: both; }
 
 .map-header {
-  background-color: #54c08a;
+  background-color: #d667cd;
   background-image: url(../images/map_header.jpg);
-  background-size: 77.20%; }
+  background-size: 77.07%; }
 
 .map-body {
   background-color: #f4f4f4;

@@ -1,7 +1,7 @@
 @charset "utf-8";
 @import "global";
 //「地图」全局变量
-$mapHeaderColor:#54c08a;
+$mapHeaderColor:#d667cd;
 $mapBodyBackgroundColor:#f4f4f4;
 $mapFontColor:#7b7b7d;
 $mapShowFontColor:#353535;
@@ -13,7 +13,7 @@ $mapBaiduMapButtonBorderColor:#2567da;
   @extend .appHeader;
   background-color:$mapHeaderColor;
   background-image:url(../images/map_header.jpg);
-  background-size:77.20%;
+  background-size:77.07%;
   a {
     @extend .appHeaderLink;
     i{
