@@ -47,18 +47,16 @@
         localStorage.removeItem("map_address");
     }
     //根据地图宽度计算地图高度
-    var map_width = document.getElementById("baidu-map").offsetWidth;
-    var map_height = map_width * 0.7883;
-    document.getElementById("baidu-map").style.height  = map_height + "px";
+    $("#baidu-map").css("height",$("#baidu-map").width() * 0.7883 + "px");
     //读取地图数据
     $.ajax({
         url: "<%= api_root %>" + "maps/map/" + "<%= map_id %>/",
         type: "GET",
         success: function (data) {
             localStorage.setItem("map_address",data.address);
-            document.getElementsByClassName("map-show-location")[0].innerHTML = return2br(data.location);
-            document.getElementsByClassName("map-show-address")[0].innerHTML = return2br(data.address);
-            document.getElementsByClassName("map-show-message")[0].innerHTML = return2br(data.message);
+            $(".map-show-location").html(return2br(data.location));
+            $(".map-show-address").html(return2br(data.address));
+            $(".map-show-message").html(return2br(data.message));
             //创建地图实例
             var map = new BMap.Map("baidu-map");
             var point = new BMap.Point(data.map_lng,data.map_lat);

@@ -25,18 +25,18 @@
     //「使用百度地图」按钮点击事件
     function use_baidu_map(){
         // 首先保存数据到 localStorage
-        localStorage.setItem("map_location",document.getElementById("map-location").value);
-        localStorage.setItem("map_address",document.getElementById("map-address").value);
-        localStorage.setItem("map_message",document.getElementById("map-message").value);
+        localStorage.setItem("map_location",$("#map-location").val());
+        localStorage.setItem("map_address",$("#map-address").val());
+        localStorage.setItem("map_message",$("#map-message").val());
         //跳转到地图标注页面
         var url = "<%= composer_host %>" + "map/mark/";
         window.location.href = encodeURI(url);
     }
     //「确定」按钮点击事件
     function map_settings_submit(){
-        var location = document.getElementById("map-location").value;
-        var address = document.getElementById("map-address").value;
-        var message = document.getElementById("map-message").value;
+        var location = $("#map-location").val();
+        var address = $("#map-address").val();
+        var message = $("#map-message").val();
         var map_lng = localStorage.getItem("map_lng");
         var map_lat = localStorage.getItem("map_lat");
         //删除 localStorage
@@ -67,10 +67,8 @@
     //在地图图片中心显示标注
     function map_marker_display(){
         //根据地图图片高度计算标注的 top
-        var map_marker = document.getElementsByClassName("map-marker")[0];
-        var map_img_height = document.body.offsetWidth * (216 / 360);
-        map_marker.style.top = 535 + map_img_height / 2 + "px";
-        map_marker.style.display = "block";
+        $(".map-marker").css({"top" : 535 + $(document.body).width() * (216 / 360) / 2 + "px",
+                                "display" : "block"});
     }
     //获取地图数据
     if (localStorage.getItem("map_location") == null && localStorage.getItem("map_address") == null && localStorage.getItem("map_message") == null) {
@@ -79,17 +77,17 @@
             url: "<%= api_root %>" + "maps/map/" + "<%= map_id %>/",
             type: "GET",
             success: function (data) {
-                document.getElementById("map-location").value = data.location;
-                document.getElementById("map-address").value = data.address;
-                document.getElementById("map-message").value = data.message;
+                $("#map-location").val(data.location);
+                $("#map-address").val(data.address);
+                $("#map-message").val(data.message);
             }
         });
     }
     else {
         //localStorage 存在，证明用户点击过「使用百度地图」按钮，那么从 localStorage 里读取数据
-        document.getElementById("map-location").value = localStorage.getItem("map_location");
-        document.getElementById("map-address").value = localStorage.getItem("map_address");
-        document.getElementById("map-message").value = localStorage.getItem("map_message");
+        $("#map-location").val(localStorage.getItem("map_location"));
+        $("#map-address").val(localStorage.getItem("map_address"));
+        $("#map-message").val(localStorage.getItem("map_message"));
     }
     //填写地图图片地址
     if (localStorage.getItem("map_lng") == null && localStorage.getItem("map_lat") == null) {
@@ -100,13 +98,13 @@
             success: function (data) {
                 if (data.map_lng == null && data.map_lat == null) {
                     //api 没有坐标数据，证明用户第一次设置
-                    document.getElementsByClassName("map-img")[0].src = "<%= static_url %>images/map_img.jpg";
+                    $(".map-img").attr("src","<%= static_url %>images/map_img.jpg");
                 }
                 else {
                     //api 里面有数据
                     var map_lng = data.map_lng;
                     var map_lat = data.map_lat;
-                    document.getElementsByClassName("map-img")[0].src = "http://api.map.baidu.com/staticimage?center=" + map_lng + "," + map_lat + "&width=360&height=216&zoom=16";
+                    $(".map-img").attr("src","http://api.map.baidu.com/staticimage?center=" + map_lng + "," + map_lat + "&width=360&height=216&zoom=16");
                     map_marker_display();
                 }
             }
@@ -116,7 +114,7 @@
         //localStorage 存在，证明用户重新设置过坐标，那么从 localStorage 里读取数据
         var map_lng = localStorage.getItem("map_lng");
         var map_lat = localStorage.getItem("map_lat");
-        document.getElementsByClassName("map-img")[0].src = "http://api.map.baidu.com/staticimage?center=" + map_lng + "," + map_lat + "&width=360&height=216&zoom=16";
+        $(".map-img").attr("src","http://api.map.baidu.com/staticimage?center=" + map_lng + "," + map_lat + "&width=360&height=216&zoom=16");
         map_marker_display();
     }
 </script>

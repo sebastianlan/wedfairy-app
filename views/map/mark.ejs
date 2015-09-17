@@ -27,8 +27,7 @@
         history.back();
     }
     //根据屏幕高度计算地图高度
-    var map_mark_body_height = document.body.scrollHeight - 44 * 2;
-    document.getElementById("baidu-map-mark").style.height = map_mark_body_height + "px";
+    $("#baidu-map-mark").css("height",$(window).height() - 44 * 2 + "px");
     //从 localStorage 中获取地址
     var address = localStorage.getItem("map_address");
     //创建地图实例
