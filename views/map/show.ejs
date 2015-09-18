@@ -19,12 +19,9 @@
     </div>
 </body>
 <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= static_url %>javascripts/global_tool.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=qNG8rBhokW7RzZnaRN9ubujq"></script>
 <script>
-    // 转义字符 "\n" 转换为 html 标签 <br/>
-    function return2br(str){
-        return str.replace(/\r?\n/g,"<br/>");
-    }
     //「点击查看路线」按钮点击事件
     function map_show_route(){
         /*start|end：（必选）
@@ -37,23 +34,21 @@
          region：城市名或县名  当给定region时，认为起点和终点都在同一城市，除非单独给定起点或终点的城市
          origin_region/destination_region：同上
          */
-        var start = {name:localStorage.getItem("client_address")}
-        var end = {name:localStorage.getItem("map_address")}
+        var start = {name:sessionStorage.getItem("client_address")}
+        var end = {name:sessionStorage.getItem("map_address")}
         var opts = {mode:BMAP_MODE_DRIVING,region:"北京"}
         var ss = new BMap.RouteSearch();
         ss.routeCall(start,end,opts);
-        //删除 localStorage
-        localStorage.removeItem("client_address");
-        localStorage.removeItem("map_address");
+        //不需要清除 sessionStorage，会话结束后自动清除
     }
     //根据地图宽度计算地图高度
     $("#baidu-map").css("height",$("#baidu-map").width() * 0.7883 + "px");
     //读取地图数据
     $.ajax({
-        url: "<%= api_root %>" + "maps/map/" + "<%= map_id %>/",
+        url: "<%= api_root %>maps/map/<%= map_id %>/",
         type: "GET",
         success: function (data) {
-            localStorage.setItem("map_address",data.address);
+            sessionStorage.setItem("map_address",data.address);
             $(".map-show-location").html(return2br(data.location));
             $(".map-show-address").html(return2br(data.address));
             $(".map-show-message").html(return2br(data.message));
@@ -80,8 +75,8 @@
                     geoc.getLocation(local, function(rs){
                         var addComp = rs.addressComponents;
                         var address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-                        //保存客户端地址到 localStorage
-                        localStorage.setItem("client_address",address);
+                        //保存客户端地址到 sessionStorage
+                        sessionStorage.setItem("client_address",address);
                     });
                 }else{
                     alert('failed'+this.getStatus());

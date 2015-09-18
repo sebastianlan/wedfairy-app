@@ -52,8 +52,17 @@ input[type="date"], select {
   color: #ff607d !important;
   font-weight: bold !important; }
 
+.list-end {
+  width: 100%;
+  height: auto;
+  margin: 36px auto;
+  font-size: 12px; }
+
 .clear {
   clear: both; }
+
+body {
+  background-color: #f0f0f0; }
 
 .poll-header {
   background-color: #fcab52;
@@ -65,7 +74,7 @@ input[type="date"], select {
   color: #7b7b7d; }
 
 .poll-text-submit {
-  background-color: #50d2c2; }
+  background-color: #ff3366; }
 
 .poll-img-submit, .poll-submit {
   background-color: #ff3366; }
@@ -192,7 +201,7 @@ input[type="date"], select {
   .text-option-add i {
     font-size: 21.12px;
     line-height: 52.32px;
-    color: #50d2c2; }
+    color: #ff3366; }
 
 .img-option-add {
   width: 100%;
@@ -234,7 +243,8 @@ input[type="date"], select {
 .poll-notice {
   width: 100%;
   height: auto;
-  padding: 52.8px 36px; }
+  padding: 52.8px 36px;
+  display: none; }
 
 .poll-radio, .poll-checkbox {
   width: 84%;

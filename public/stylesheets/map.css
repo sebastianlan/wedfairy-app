@@ -52,6 +52,12 @@ input[type="date"], select {
   color: #ff607d !important;
   font-weight: bold !important; }
 
+.list-end {
+  width: 100%;
+  height: auto;
+  margin: 36px auto;
+  font-size: 12px; }
+
 .clear {
   clear: both; }
 

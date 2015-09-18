@@ -47,7 +47,7 @@
         localStorage.removeItem("map_lat");
         //提交数据到 api
         $.ajax({
-            url: "<%= api_root %>" + "maps/map/" + "<%= map_id %>/?token="+"<%= token %>",
+            url: "<%= api_root %>maps/map/<%= map_id %>/?token=<%= token %>",
             type: "PUT",
             data: {
                 "location":location,
@@ -74,7 +74,7 @@
     if (localStorage.getItem("map_location") == null && localStorage.getItem("map_address") == null && localStorage.getItem("map_message") == null) {
         //从 api 获取数据
         $.ajax({
-            url: "<%= api_root %>" + "maps/map/" + "<%= map_id %>/",
+            url: "<%= api_root %>maps/map/<%= map_id %>/",
             type: "GET",
             success: function (data) {
                 $("#map-location").val(data.location);
@@ -93,7 +93,7 @@
     if (localStorage.getItem("map_lng") == null && localStorage.getItem("map_lat") == null) {
         //localStorage 不存在
         $.ajax({
-            url: "<%= api_root %>" + "maps/map/" + "<%= map_id %>/",
+            url: "<%= api_root %>maps/map/<%= map_id %>/",
             type: "GET",
             success: function (data) {
                 if (data.map_lng == null && data.map_lat == null) {

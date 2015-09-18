@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/rsvp.css">
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/animate.css">
+</head>
+<body>
+    <div class="container rsvp-header">
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+    </div>
+    <div class="container rsvp-body">
+        <div class="rsvp-dashboard-total">
+            <div class="dashboard-total-left">
+                <label>报名截止日期</label>
+                <label class="highlight"></label>
+            </div>
+            <div class="dashboard-total-right">
+                <label>已确定参加人数</label>
+                <label class="highlight"></label>
+            </div>
+        </div>
+        <div class="dashboard-rsvp-header">
+            <i class="fa fa-users"></i>
+            <label>宾客名单</label>
+        </div>
+        <div class="dashboard-guests-list"></div>
+        <div class="list-end">- END -</div>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= static_url %>javascripts/wow.min.js"></script>
+<script>
+    new WOW().init();
+</script>
+<script>
+    //获取截止日期
+    $.ajax({
+        url: "<%= api_root %>rsvps/rsvp/<%= rsvp_id %>/",
+        type: "GET",
+        success: function (data) {
+            $(".dashboard-total-left").children(".highlight").text(data.deadline);
+        }
+    })
+    //获取参加人数
+    $.ajax({
+        url: "<%= api_root %>rsvps/rsvp/<%= rsvp_id %>/guests/?token=<%= token %>",
+        type: "GET",
+        success: function (data) {
+            //计算参加总人数
+            //alert(JSON.stringify(data));
+            var jsonLength = data.length;
+            var totalPeople = 0;
+            for(i = 0;i < jsonLength;i ++){
+                totalPeople += data[i].people;
+            }
+            $(".dashboard-total-right").children(".highlight").text(totalPeople + " 人");
+            //渲染宾客列表
+            for(i = 0;i < jsonLength;i ++){
+                $(".dashboard-guests-list").prepend(
+                    "<div class='dashboard-guests-details wow fadeInUp'>" +
+                        "<div class='guests-details-left'>" +
+                            "<img src=" + data[i].avatar + " />" +
+                            "<div>" +
+                                "<label><span>" + data[i].name + "</span>确定参加</label>" +
+                                "<label class='details-date'>" + data[i].created_date + "</label>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class='guests-details-right'>" +
+                            "<label>参加人数</label>" +
+                            "<label class='highlight'>" + data[i].people + "</label>" +
+                        "</div>" +
+                    "</div>");
+            }
+        }
+    })
+</script>
+</html>

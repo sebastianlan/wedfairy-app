@@ -4,12 +4,15 @@
 $pollHeaderColor:#fcab52;
 $pollBodyBackgroundColor:#f0f0f0;
 $pollFontColor:#7b7b7d;
-$pollTextColor:#50d2c2;
+$pollTextColor:#ff3366;
 $pollImgColor:#ff3366;
 $pollSubmitColor:#ff3366;
 $pollSelectTopFontColor:#5b6779;
 $pollSelectBottomBackgroundColor:#fcab52;
 //「投票」全局样式
+body{
+  background-color:$pollBodyBackgroundColor;
+}
 .poll-header{
   @extend .appHeader;
   background-color:$pollHeaderColor;
@@ -187,6 +190,7 @@ $pollSelectBottomBackgroundColor:#fcab52;
   @extend .highlight;
   width:100%;height:auto;
   padding:52.8px 36px;
+  display:none;
 }
 .poll-radio,.poll-checkbox{
   width:84%;height:auto;text-align:left;

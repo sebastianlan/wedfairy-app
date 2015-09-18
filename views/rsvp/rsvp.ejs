@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/rsvp.css">
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/animate.css">
+</head>
+<body>
+    <div class="container rsvp-header">
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+    </div>
+    <div class="container rsvp-body">
+        <div class="add-guests-deadline">
+            <label>报名截止日期</label>
+            <label class="highlight"></label>
+        </div>
+        <div class="add-guests-message"></div>
+        <div class="add-guests-notice wow bounceInUp">您来晚了，报名已经结束啦<br/>(°□°；)</div>
+        <form action="javascript:rsvp_submit();">
+            <input name="guests-name" id="guests-name" type="text" placeholder="请输入你的姓名"/>
+            <div class="guests-people">
+                <input name="guests-people" id="guests-people" type="tel"/>
+                <label>人到场参加婚礼</label>
+            </div>
+            <button class="rsvp-submit" type="submit">确认参加</button>
+        </form>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= static_url %>javascripts/global_tool.js"></script>
+<script src="<%= static_url %>javascripts/wow.min.js"></script>
+<script>
+    new WOW().init();
+</script>
+<script>
+    //「确认参加」按钮点击事件
+    function rsvp_submit() {
+        //获取用户头像
+        $.ajax({
+            url: "<%= vu_api_root %>",
+            type: "GET",
+            headers: {Authorization: "Token <%= token %>"},
+            success: function(data) {
+                sessionStorage.setItem("user_avatar",data[0].profile.avatar);
+            },
+            error: function () {
+                sessionStorage.setItem("user_avatar","http://up.img.8yinhe.cn/o_19vdmapepac610dm1kgdedj1tlj7.png?imageView2/2/w/1280/q/85");
+            }
+        })
+        //会话结束后 sessionStorage 将自动清理 暂无法限制宾客的唯一性，既同一用户可以多次提交
+        var avatar = sessionStorage.getItem("user_avatar");
+        var name = $("#guests-name").val();
+        var people = $("#guests-people").val();
+        $.ajax({
+            url: "<%= api_root %>rsvps/guest/",
+            type: "POST",
+            data: {
+                "rsvp": "<%= rsvp_id %>",
+                "avatar": avatar,
+                "name": name,
+                "people": people
+            },
+            success: function (data) {
+                history.back();
+            }
+        })
+    }
+    $.ajax({
+        url: "<%= api_root %>rsvps/rsvp/<%= rsvp_id %>/",
+        type: "GET",
+        success: function (data) {
+            //获取数据插入页面
+            $(".highlight").text(data.deadline);
+            $(".add-guests-message").html(return2br(data.message));
+            if(Date.parse(data.deadline) < Date.parse(get_current_date())){
+                //隐藏 form，显示提示信息
+                $("form").slideUp("slow");
+                $(".add-guests-notice").show();
+            }
+        }
+    })
+</script>
+</html>

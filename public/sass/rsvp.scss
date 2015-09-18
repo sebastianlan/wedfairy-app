@@ -4,8 +4,11 @@
 $rsvpHeaderColor:#8d88ff;
 $rsvpBodyBackgroundColor:#f0f0f0;
 $rsvpFontColor:#7b7b7d;
-$rsvpSubmitColor:#4fd2c2;
+$rsvpSubmitColor:#ff3366;
 //「宾客管理」全局样式
+body{
+  background-color:$rsvpBodyBackgroundColor;
+}
 .rsvp-header{
   @extend .appHeader;
   background-color:$rsvpHeaderColor;
@@ -66,6 +69,7 @@ $rsvpSubmitColor:#4fd2c2;
   @extend .highlight;
   width:100%;height:auto;
   padding:0 36px 52.8px;
+  display:none;
 }
 #guests-name{
   @extend .appInput;
@@ -145,7 +149,7 @@ $rsvpSubmitColor:#4fd2c2;
   }
 }
 .details-date{
-  font-size:14px;line-height:10px;color:#a2a2a2;
+  font-size:14px;line-height:12px;color:#a2a2a2;
 }
 .guests-details-right{
   width:34%;height:37.92px;margin-top:7.68px;

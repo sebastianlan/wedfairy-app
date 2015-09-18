@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/rsvp.css">
+</head>
+<body>
+    <div class="container rsvp-header">
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+    </div>
+    <div class="container rsvp-body">
+        <form action="javascript:rsvp_settings_submit();">
+            <textarea name="rsvp-message" id="rsvp-message" placeholder="请输入你想要对宾客说的话..."></textarea>
+            <div class="rsvp-deadline">
+                <label>设定截止日期 :</label>
+                <input name="rsvp-deadline" id="rsvp-deadline" type="date"/>
+            </div>
+            <button class="rsvp-submit" type="submit">提交</button>
+        </form>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script>
+    //「提交」按钮点击事件
+    function rsvp_settings_submit(){
+        var message = $("#rsvp-message").val();
+        var deadline = $("#rsvp-deadline").val();
+        $.ajax({
+            url: "<%= api_root %>rsvps/rsvp/<%= rsvp_id %>/?token=<%= token %>",
+            type: "PUT",
+            data: {
+                "message":message,
+                "deadline":deadline
+            },
+            success: function (data) {
+                history.back();
+            }
+        });
+    }
+    //从 api 中读取数据
+    $.ajax({
+        url: "<%= api_root %>rsvps/rsvp/<%= rsvp_id %>/",
+        type: "GET",
+        success: function (data) {
+            $("#rsvp-message").val(data.message);
+            $("#rsvp-deadline").val(data.deadline);
+        }
+    });
+</script>
+</html>

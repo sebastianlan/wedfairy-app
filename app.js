@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var settings = require('./settings/settings');
 
+var rsvp = require('./routes/rsvp');
 var map = require('./routes/map');
 
 var app = express();
@@ -36,6 +37,7 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
     maxAge: app.get('env') === 'development' ? 0 : 86400000
 }));
 
+app.use('/rsvp', rsvp);
 app.use('/map', map);
 
 // catch 404 and forward to error handler

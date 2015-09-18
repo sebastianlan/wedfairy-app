@@ -52,8 +52,17 @@ input[type="date"], select {
   color: #ff607d !important;
   font-weight: bold !important; }
 
+.list-end {
+  width: 100%;
+  height: auto;
+  margin: 36px auto;
+  font-size: 12px; }
+
 .clear {
   clear: both; }
+
+body {
+  background-color: #f0f0f0; }
 
 .rsvp-header {
   background-color: #8d88ff;
@@ -65,7 +74,7 @@ input[type="date"], select {
   color: #7b7b7d; }
 
 .rsvp-submit {
-  background-color: #4fd2c2; }
+  background-color: #ff3366; }
 
 #rsvp-message {
   width: 83.07%;
@@ -107,7 +116,8 @@ input[type="date"], select {
 .add-guests-notice {
   width: 100%;
   height: auto;
-  padding: 0 36px 52.8px; }
+  padding: 0 36px 52.8px;
+  display: none; }
 
 #guests-name {
   width: 45%;
@@ -201,7 +211,7 @@ input[type="date"], select {
 
 .details-date {
   font-size: 14px;
-  line-height: 10px;
+  line-height: 12px;
   color: #a2a2a2; }
 
 .guests-details-right {
