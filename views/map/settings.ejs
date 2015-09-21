@@ -10,12 +10,12 @@
     </div>
     <div class="container map-body">
         <form action="javascript:map_settings_submit();">
-            <textarea name="map-location" id="map-location" placeholder="你们结婚的地点名称，酒店、海滩、会所、草原或者其他有趣的地方"></textarea>
+            <textarea name="map-location" id="map-location" placeholder="地点名称，酒店、会所、海滩、草原或者其他有趣的地方"></textarea>
             <textarea name="map-address" id="map-address" placeholder="具体的地址，XX省XX市XX区XX路XX号"></textarea>
             <button class="map-use" type="button" onclick="javascript:use_baidu_map();"><i class="iconfont icon-map"></i> 使用百度地图</button>
             <img class="map-img"/>
             <img class="map-marker" src="<%= static_url %>images/map_marker.png"/>
-            <textarea name="map-message" id="map-message" placeholder="这里可以描写一下怎么过来的路线，交通工具、地铁几号口出来、附近有什么显著建筑物之类吧"></textarea>
+            <textarea name="map-message" id="map-message" placeholder="这里可以描写一下过来的路线，交通工具、地铁几号口出来、附近有什么显著建筑物之类的"></textarea>
             <button class="map-submit" type="submit">确定</button>
         </form>
     </div>
@@ -60,7 +60,7 @@
                 history.back();
             },
             error: function () {
-                alert("请填写正确的地址并使用百度地图哟");
+                alert("请填写正确的地址并使用百度地图哟！");
             }
         });
     }
@@ -72,14 +72,21 @@
     }
     //获取地图数据
     if (localStorage.getItem("map_location") == null && localStorage.getItem("map_address") == null && localStorage.getItem("map_message") == null) {
-        //从 api 获取数据
+        //localStorage 不存在，从 api 获取数据
         $.ajax({
             url: "<%= api_root %>maps/map/<%= map_id %>/",
             type: "GET",
             success: function (data) {
-                $("#map-location").val(data.location);
-                $("#map-address").val(data.address);
-                $("#map-message").val(data.message);
+                if(data.location == null && data.address == null && data.message == null){
+                    //没有数据，这是新建应用，设置默认值
+                    $("#map-location").val("「八音盒」HQ");
+                    $("#map-address").val("上海市静安区铜仁路299号");
+                    $("#map-message").val("八仙过海，各显神通。\n\n如果很幸运你与他们在同一个城市，一清早，先走到市中心，面向朝阳，婚礼就在你的前方，一直走一直走，就到了。\n\n如果你从外地来，建议选择环保的高铁。\n\n如果你从国外来，请先回到中国，无论你在巴黎，在伦敦，在纽约，还是在斯得哥尔摩，都请先回国咯。");
+                }else{
+                    $("#map-location").val(data.location);
+                    $("#map-address").val(data.address);
+                    $("#map-message").val(data.message);
+                }
             }
         });
     }
@@ -91,7 +98,7 @@
     }
     //填写地图图片地址
     if (localStorage.getItem("map_lng") == null && localStorage.getItem("map_lat") == null) {
-        //localStorage 不存在
+        //localStorage 不存在，从 api 获取数据
         $.ajax({
             url: "<%= api_root %>maps/map/<%= map_id %>/",
             type: "GET",
