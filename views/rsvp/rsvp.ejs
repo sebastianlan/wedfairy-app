@@ -20,7 +20,7 @@
             <input name="guests-name" id="guests-name" type="text" placeholder="请输入你的姓名"/>
             <div class="guests-people">
                 <input name="guests-people" id="guests-people" type="tel"/>
-                <label>人到场参加婚礼</label>
+                <label>人到场参加</label>
             </div>
             <button class="rsvp-submit" type="submit">确认参加</button>
         </form>
@@ -61,7 +61,11 @@
                 "people": people
             },
             success: function (data) {
+                alert("您已经成功报名了，记得准时参加哟！");
                 history.back();
+            },
+            error: function () {
+                alert("请确认您输入了「姓名」和「参加人数」，并保证「参加人数」是数字而不是其他什么奇怪的东西哟！");
             }
         })
     }
