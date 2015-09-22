@@ -1,6 +1,20 @@
 @charset "utf-8";
 //「wedfairy_app」全局变量
+$rsvpHeaderColor:#8d88ff;
+$mapHeaderColor:#d667cd;
+$pollHeaderColor:#fcab52;
+
+$appBodyBackgroundColor:#f0f0f0;
+$appFontColor:#7b7b7d;
+$appSubmitColor:#ff3366;
 $highlightColor:#ff607d;
+
+$mapShowFontColor:#353535;
+$mapBaiduMapButtonColor:#3e82f7;
+$mapBaiduMapButtonBorderColor:#2567da;
+
+$pollSelectTopFontColor:#5b6779;
+$pollSelectBottomBackgroundColor:#fcab52;
 //「wedfairy_app」全局样式
 //隐藏滚动条
 ::-webkit-scrollbar{
@@ -22,11 +36,14 @@ input[type="date"],select{
 }
 .appBody{
   width:100%;height:auto;padding:0;
-  text-align:center;font-size:15px;line-height:20px;
+  text-align:center;font-size:14px;line-height:20px;
+  background-color:$appBodyBackgroundColor;
+  color:$appFontColor;
 }
 .appSubmitButton{
   width:84%;height:52.8px;margin-top:45.12px;margin-bottom:36px;
-  border:none;outline:none;color:#fff;letter-spacing:2px;
+  background-color:$appSubmitColor;color:#fff;
+  border:none;outline:none;letter-spacing:2px;
 }
 .appInput{
   border:none;outline:none;border-radius:5px;background-color:#fff;

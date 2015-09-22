@@ -1,17 +1,8 @@
 @charset "utf-8";
 @import "global";
-//「投票」全局变量
-$pollHeaderColor:#fcab52;
-$pollBodyBackgroundColor:#f0f0f0;
-$pollFontColor:#7b7b7d;
-$pollTextColor:#ff3366;
-$pollImgColor:#ff3366;
-$pollSubmitColor:#ff3366;
-$pollSelectTopFontColor:#5b6779;
-$pollSelectBottomBackgroundColor:#fcab52;
 //「投票」全局样式
 body{
-  background-color:$pollBodyBackgroundColor;
+  background-color:$appBodyBackgroundColor;
 }
 .poll-header{
   @extend .appHeader;
@@ -27,16 +18,9 @@ body{
 }
 .poll-body{
   @extend .appBody;
-  background-color:$pollBodyBackgroundColor;
-  color:$pollFontColor;
 }
-.poll-text-submit{
+.poll-submit{
   @extend .appSubmitButton;
-  background-color:$pollTextColor;
-}
-.poll-img-submit,.poll-submit{
-  @extend .appSubmitButton;
-  background-color: $pollImgColor;
 }
 .poll-total{
   width:100%;height:53.28px;
@@ -80,7 +64,8 @@ body{
   a{
     @extend .appHeaderLink;
     i{
-      font-size:22px;color:#5b677a;
+      @extend .appHeaderLinkIcon;
+      color:$pollSelectTopFontColor;
     }
   }
 }
@@ -119,10 +104,12 @@ body{
   text-align:left;
   label{
     @extend .appLabel;
+    width:20%;
     line-height:52.32px;
   }
   input{
     @extend .appInput;
+    width:78%;
     margin-left:4px;
   }
 }
@@ -141,20 +128,12 @@ body{
     width:67.70%;float:left;
   }
 }
-.text-option-add{
+.poll-option-add{
   width:100%;height:52.32px;
   background-color:#fff;
   i{
     font-size:21.12px;line-height:52.32px;
-    color:$pollTextColor;
-  }
-}
-.img-option-add{
-  width:100%;height:52.32px;
-  background-color:#fff;
-  i{
-    font-size:21.12px;line-height:52.32px;
-    color:$pollImgColor;
+    color:$appSubmitColor;
   }
 }
 .poll-deadline-wrapping{

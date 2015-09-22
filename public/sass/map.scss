@@ -1,14 +1,7 @@
 @charset "utf-8";
 @import "global";
-//「地图」全局变量
-$mapHeaderColor:#d667cd;
-$mapBodyBackgroundColor:#f4f4f4;
-$mapFontColor:#7b7b7d;
-$mapShowFontColor:#353535;
-$mapSubmitColor:#ff3366;
-$mapBaiduMapColor:#3e82f7;
-$mapBaiduMapButtonBorderColor:#2567da;
 //「地图」全局样式
+//不需要写 body 的 background-color
 .map-header{
   @extend .appHeader;
   background-color:$mapHeaderColor;
@@ -23,12 +16,9 @@ $mapBaiduMapButtonBorderColor:#2567da;
 }
 .map-body{
   @extend .appBody;
-  background-color:$mapBodyBackgroundColor;
-  color:$mapFontColor;
 }
 .map-submit{
   @extend .appSubmitButton;
-  background-color:$mapSubmitColor;
 }
 //「地图」设置页面
 #map-location{
@@ -44,7 +34,7 @@ $mapBaiduMapButtonBorderColor:#2567da;
 .map-use{
   width:100%;height:55.68px;margin-top:52.32px;
   border:none;outline:none;
-  background-color:$mapBaiduMapColor;color:#fff;
+  background-color:$mapBaiduMapButtonColor;color:#fff;
   i{
     font-size:20px;
   }
@@ -64,6 +54,7 @@ $mapBaiduMapButtonBorderColor:#2567da;
 //「地图」展示页面
 .map-show-body{
   @extend .appBody;
+  background-color:#fff;
   color:$mapShowFontColor;
 }
 .map-show-location{
@@ -81,7 +72,7 @@ $mapBaiduMapButtonBorderColor:#2567da;
 .map-show-route{
   width:44.00%;height:43.68px;
   margin-top:57.60px;
-  background-color:$mapBaiduMapColor;color:#fff;
+  background-color:$mapBaiduMapButtonColor;color:#fff;
   border:1px solid $mapBaiduMapButtonBorderColor;border-radius:21.84px;
   outline:none;
 }

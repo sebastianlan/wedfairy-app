@@ -26,17 +26,20 @@ input[type="date"], select {
   height: auto;
   padding: 0;
   text-align: center;
-  font-size: 15px;
-  line-height: 20px; }
+  font-size: 14px;
+  line-height: 20px;
+  background-color: #f0f0f0;
+  color: #7b7b7d; }
 
 .appSubmitButton, .map-submit {
   width: 84%;
   height: 52.8px;
   margin-top: 45.12px;
   margin-bottom: 36px;
+  background-color: #ff3366;
+  color: #fff;
   border: none;
   outline: none;
-  color: #fff;
   letter-spacing: 2px; }
 
 .appInput, #map-location, #map-address, #map-message, .map-mark-submit {
@@ -65,13 +68,6 @@ input[type="date"], select {
   background-color: #d667cd;
   background-image: url(../images/map_header.jpg);
   background-size: 77.07%; }
-
-.map-body {
-  background-color: #f4f4f4;
-  color: #7b7b7d; }
-
-.map-submit {
-  background-color: #ff3366; }
 
 #map-location {
   width: 94.93%;
@@ -118,6 +114,7 @@ input[type="date"], select {
   padding: 5.07%; }
 
 .map-show-body {
+  background-color: #fff;
   color: #353535; }
 
 .map-show-location {

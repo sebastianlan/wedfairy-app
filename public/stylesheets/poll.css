@@ -17,7 +17,7 @@ input[type="date"], select {
   width: 22px;
   height: 22px; }
 
-.appHeaderLinkIcon, .poll-header a i {
+.appHeaderLinkIcon, .poll-header a i, .poll-select-top a i {
   font-size: 22px;
   color: #fff; }
 
@@ -26,17 +26,20 @@ input[type="date"], select {
   height: auto;
   padding: 0;
   text-align: center;
-  font-size: 15px;
-  line-height: 20px; }
+  font-size: 14px;
+  line-height: 20px;
+  background-color: #f0f0f0;
+  color: #7b7b7d; }
 
-.appSubmitButton, .poll-text-submit, .poll-img-submit, .poll-submit {
+.appSubmitButton, .poll-submit {
   width: 84%;
   height: 52.8px;
   margin-top: 45.12px;
   margin-bottom: 36px;
+  background-color: #ff3366;
+  color: #fff;
   border: none;
   outline: none;
-  color: #fff;
   letter-spacing: 2px; }
 
 .appInput, #poll-title, #poll-message, .poll-text-option input, .poll-img-option input, #poll-deadline, #poll-type, .poll-show-option input {
@@ -68,16 +71,6 @@ body {
   background-color: #fcab52;
   background-image: url(../images/poll_header.jpg);
   background-size: 77.73%; }
-
-.poll-body {
-  background-color: #f0f0f0;
-  color: #7b7b7d; }
-
-.poll-text-submit {
-  background-color: #ff3366; }
-
-.poll-img-submit, .poll-submit {
-  background-color: #ff3366; }
 
 .poll-total {
   width: 100%;
@@ -133,8 +126,7 @@ body {
   background-color: #fff;
   color: #5b6779; }
   .poll-select-top a i {
-    font-size: 22px;
-    color: #5b677a; }
+    color: #5b6779; }
 
 .poll-select-bottom {
   width: 100%;
@@ -177,8 +169,10 @@ body {
   border-bottom: 2px solid #f3f3f4;
   text-align: left; }
   .poll-text-option label {
+    width: 20%;
     line-height: 52.32px; }
   .poll-text-option input {
+    width: 78%;
     margin-left: 4px; }
 
 .poll-img-option {
@@ -194,20 +188,11 @@ body {
     width: 67.70%;
     float: left; }
 
-.text-option-add {
+.poll-option-add {
   width: 100%;
   height: 52.32px;
   background-color: #fff; }
-  .text-option-add i {
-    font-size: 21.12px;
-    line-height: 52.32px;
-    color: #ff3366; }
-
-.img-option-add {
-  width: 100%;
-  height: 52.32px;
-  background-color: #fff; }
-  .img-option-add i {
+  .poll-option-add i {
     font-size: 21.12px;
     line-height: 52.32px;
     color: #ff3366; }

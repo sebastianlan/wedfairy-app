@@ -1,18 +1,13 @@
 @charset "utf-8";
 @import "global";
-//「宾客管理」全局变量
-$rsvpHeaderColor:#8d88ff;
-$rsvpBodyBackgroundColor:#f0f0f0;
-$rsvpFontColor:#7b7b7d;
-$rsvpSubmitColor:#ff3366;
 //「宾客管理」全局样式
 body{
-  background-color:$rsvpBodyBackgroundColor;
+  background-color:$appBodyBackgroundColor;
 }
 .rsvp-header{
   @extend .appHeader;
   background-color:$rsvpHeaderColor;
-  background-image: url(../images/rsvp_header.jpg);
+  background-image:url(../images/rsvp_header.jpg);
   background-size:81.47%;
   a {
     @extend .appHeaderLink;
@@ -23,12 +18,9 @@ body{
 }
 .rsvp-body{
   @extend .appBody;
-  background-color:$rsvpBodyBackgroundColor;
-  color:$rsvpFontColor;
 }
 .rsvp-submit{
   @extend .appSubmitButton;
-  background-color:$rsvpSubmitColor;
 }
 //「宾客管理」设置页面
 #rsvp-message{
@@ -39,7 +31,7 @@ body{
 }
 .rsvp-deadline{
   width:100%;height:53.28px;margin-top:39.36px;padding:0 8%;
-  text-align:left;line-height:53.28px;  background-color:#fff;
+  text-align:left;line-height:53.28px;background-color:#fff;
   label{
     @extend .appLabel;
   }
@@ -49,9 +41,8 @@ body{
   width:60%;
 }
 //「宾客管理」添加宾客页面
-.add-guests-deadline{
-  width:100%;height:53.28px;
-  padding-top:8px;
+.rsvp-rsvp-deadline{
+  width:100%;height:53.28px;padding-top:8px;
   background-color:#fff;
   label{
     @extend .appLabel;
@@ -59,26 +50,23 @@ body{
     margin:0;color:#a3a3a3;
   }
 }
-.add-guests-message{
-  width:100%;height:auto;
-  padding:52.8px 36px;
-  text-align:left;
-  text-indent:2em;
+.rsvp-rsvp-message{
+  width:100%;height:auto;padding:52.8px 36px;
+  text-align:left;text-indent:2em;
 }
-.add-guests-notice{
+.rsvp-rsvp-notice{
   @extend .highlight;
   width:100%;height:auto;
-  padding:0 36px 52.8px;
+  padding:0 36px;
   display:none;
 }
-#guests-name{
+#rsvp-name,#rsvp-mobile{
   @extend .appInput;
   width:45%;height:42.24px;
-  margin-left:8%;margin-right:47%;padding:3.5%;
+  margin:0 47% 12.96px 8%;padding:3.5%;
 }
-.guests-people{
-   width:100%;height:32.16px;
-   margin-top:12.96px;padding-left:8%;
+.rsvp-people{
+   width:100%;height:32.16px;padding-left:8%;
   label{
     @extend .appLabel;
     padding-left:5px;
@@ -86,7 +74,7 @@ body{
     float:left;
   }
  }
-#guests-people{
+#rsvp-people{
   @extend .appInput,.highlight;
   width:13%;height:100%;
   text-align:center;
@@ -124,39 +112,38 @@ body{
   width:100%;height:auto;
 }
 .dashboard-guests-details{
-  width:93.87%;height:53.28px;
-  margin:0 auto 11.04px;
-  background-color:#fff;
+  width:93.87%;height:53.28px;margin:0 auto 11.04px;
+  background-color:#fff;font-size:13px;
 }
 .guests-details-left{
-  width:66%;height:100%;float:left;
+  width:75%;height:100%;float:left;
   img{
     width:34.56px;height:34.56px;
-    margin:9.6px 12.48px 0 10.08px;
+    margin:9.6px 10.08px;
     float:left;
   }
   div{
-    width:70%;height:40px;margin-top:7.68px;
+    width:75%;height:40px;margin-top:7.68px;
     text-align:left;float:left;
     label{
       @extend .appLabel;
-      width:100%;height:50%;
-      margin:0;overflow:hidden;
+      width:100%;height:50%;margin:0;
       span{
+        display:block;max-width:40%;height:100%;
+        margin-right:3px;float:left;overflow:hidden;
         color:$highlightColor;
       }
     }
   }
 }
 .details-date{
-  font-size:14px;line-height:12px;color:#a2a2a2;
+  font-size:12px;line-height:10px;color:#a2a2a2;
 }
 .guests-details-right{
-  width:34%;height:37.92px;margin-top:7.68px;
+  width:25%;height:37.92px;margin-top:7.68px;
   border-left:2px solid #f0f0f0;float:left;
   label{
     @extend .appLabel;
-    margin:0;padding:0 2px;
-    font-size:14px;line-height:37.92px;
+    width:100%;height:50%;margin:0;
   }
 }
