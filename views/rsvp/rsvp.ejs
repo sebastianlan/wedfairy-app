@@ -17,8 +17,8 @@
         <div class="rsvp-rsvp-message"></div>
         <div class="rsvp-rsvp-notice wow bounceInUp">您来晚了，报名已经结束啦<br/>(°□°；)</div>
         <form action="javascript:rsvp_submit();">
-            <input name="rsvp-name" id="rsvp-name" type="text" placeholder="请输入你的姓名"/>
-            <input name="rsvp-mobile" id="rsvp-mobile" type="tel" placeholder="请输入你的电话"/>
+            <input name="rsvp-name" id="rsvp-name" type="text" placeholder="请输入您的姓名"/>
+            <input name="rsvp-mobile" id="rsvp-mobile" type="tel" placeholder="请输入您的电话"/>
             <div class="rsvp-people">
                 <input name="rsvp-people" id="rsvp-people" type="tel"/>
                 <label>人到场参加</label>
@@ -36,6 +36,31 @@
 <script>
     //「确认参加」按钮点击事件
     function rsvp_submit() {
+        //先验证用户输入的数据是否合法
+        if($("#rsvp-name").val().length == 0){
+            alert("记得填写姓名哟！");
+            return false;
+        }
+        if($("#rsvp-name").val().length > 20 ){
+            alert("姓名太长啦！建议用真实姓名或是故事主人可以识别的昵称哟。");
+            return false;
+        }
+        if($("#rsvp-mobile").val().length == 0){
+            alert("记得填写电话哟！");
+            return false;
+        }
+        if(!isMobile($("#rsvp-mobile").val())){
+            alert("亲，请填写正确的电话号码，手机号、固话都可以哟。");
+            return false;
+        }
+        if($("#rsvp-people").val().length == 0){
+            alert("记得填写参加人数哟！");
+            return false;
+        }
+        if(!isPeople($("#rsvp-people").val())){
+            alert("参加人数必须是在 1一999 之间的整数哟。");
+            return false;
+        }
         //获取用户头像
         $.ajax({
             url: "<%= vu_api_root %>",
@@ -72,7 +97,7 @@
                 history.back();
             },
             error: function () {
-                alert("请确认您输入了「姓名」和「参加人数」，并保证「参加人数」是数字而不是其他什么奇怪的东西哟！");
+                alert("网络开了会小差，请稍后再试\nಥ_ಥ");
             }
         })
     }
