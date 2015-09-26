@@ -3,6 +3,8 @@
 <head>
     <% include ../includes/metadata %>
     <link rel="stylesheet" href="<%= static_url %>stylesheets/rsvp.css">
+    <% include ../includes/production %>
+    <script src="<%= tat_static %>javascripts/vendor/modernizr-2.7.1.min.js"></script>
 </head>
 <body>
     <div class="container rsvp-header">
@@ -54,4 +56,6 @@
         }
     });
 </script>
+<% include ../includes/analytics %>
 </html>
+

@@ -3,6 +3,8 @@
 <head>
     <% include ../includes/metadata %>
     <link rel="stylesheet" href="<%= static_url %>stylesheets/map.css">
+    <% include ../includes/production %>
+    <script src="<%= tat_static %>javascripts/vendor/modernizr-2.7.1.min.js"></script>
 </head>
 <body>
     <div class="map-mark-header">
@@ -44,4 +46,6 @@
         }
     }, "北京市");
 </script>
+<% include ../includes/analytics %>
 </html>
+

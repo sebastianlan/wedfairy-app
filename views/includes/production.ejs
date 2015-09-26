@@ -1,0 +1,23 @@
+<% if (settings.env == 'development') { %>
+<script>
+    window['amour-disable-error-reporting'] = true;
+</script>
+<% } else { %>
+<script>
+    window['amour-disable-error-reporting'] = true;
+    (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+    c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+    c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
+    _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
+    (window,document,"script","542430d6105c8f4d780000c2");
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?bd70a1da820610e7b2812074260b6fdc";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })(); 
+</script>
+<% } %>

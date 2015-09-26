@@ -4,6 +4,8 @@
     <% include ../includes/metadata %>
     <link rel="stylesheet" href="<%= static_url %>stylesheets/poll.css">
     <link rel="stylesheet" href="<%= static_url %>stylesheets/animate.css">
+    <% include ../includes/production %>
+    <script src="<%= tat_static %>javascripts/vendor/modernizr-2.7.1.min.js"></script>
 </head>
 <body>
     <div class="container poll-header">
@@ -218,4 +220,6 @@
         });
     }
 </script>
+<% include ../includes/analytics %>
 </html>
+
