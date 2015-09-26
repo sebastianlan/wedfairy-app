@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/poll.css">
+</head>
+<body>
+    <div class="container poll-select-top">
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+        <div class="poll-select-text" onclick="javascript:poll_select(1);">
+            <i class="iconfont icon-text"></i>
+            <p>文字投票</p>
+        </div>
+    </div>
+    <div class="container poll-select-bottom">
+        <div class="poll-select-img" onclick="javascript:poll_select(0);">
+            <i class="iconfont icon-picture"></i>
+            <p>图片投票</p>
+        </div>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script>
+    //跳转到投票设置页面
+    function go_poll_setting(){
+        var url = "<%= composer_host %>poll/<%= poll_id %>/settings/?token=<%= token %>";
+        window.location.href = encodeURI(url);
+    }
+    //投票种类选择（文字 / 图片）
+    function poll_select(num){
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/?token=<%= token %>",
+            type: "PUT",
+            data: {
+                "select":num
+            },
+            success: function(){
+                go_poll_setting();
+            }
+        });
+    }
+    //根据屏幕高度计算两个选项卡的高度
+    $(".poll-select-top").css("height",$(window).height()/ 2 + "px");
+    $(".poll-select-bottom").css("height",$(window).height()/ 2 + "px");
+    //计算选项卡的 margin-top 使其垂直居中
+    $(".poll-select-text").css("margin-top",($(".poll-select-top").height() - 72)/ 2 - 23 - 22 + "px");
+    $(".poll-select-img").css("margin-top",($(".poll-select-bottom").height() - 72)/ 2 + "px");
+    //检查用户是否选择过 select
+    $.ajax({
+        url: "<%= api_root %>polls/poll/<%= poll_id %>/",
+        type: "GET",
+        success: function(data){
+            if(data.select != null){
+                go_poll_setting();
+            }else{//暂时只能文字投票
+                poll_select(1);
+            }
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/poll.css">
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/animate.css">
+</head>
+<body>
+    <div class="container poll-header">
+        <a href="javascript:history.go(-2);"><i class="iconfont icon-arrow-left"></i></a>
+    </div>
+    <div class="container poll-body">
+        <form>
+            <input name="poll-title" id="poll-title" type="text" placeholder="请输入标题"/>
+            <textarea name="poll-message" id="poll-message" placeholder="请输入开场白"></textarea>
+            <div class="poll-option-list">
+                <!--<div class="poll-img-option option-2">-->
+                    <!--<label>选项 2 :</label>-->
+                    <!--<input name="img-option-2" id="img-option-2" type="file" style="display:none;"/>-->
+                    <!--<p style="display:none;">选择图片</p>-->
+                    <!--<img src="../images/map_header.jpg"/>-->
+                    <!--<div class="clear"></div>-->
+                <!--</div>-->
+                <!--<div class="poll-img-option option-3">-->
+                    <!--<label>选项 3 :</label>-->
+                    <!--<input name="img-option-3" id="img-option-3" type="file" style="display:none;"/>-->
+                    <!--<p style="display:none;">选择图片</p>-->
+                    <!--<img src="../images/map_img.jpg"/>-->
+                    <!--<div class="clear"></div>-->
+                <!--</div>-->
+            </div>
+            <div class="poll-option-add">
+                <i class="iconfont icon-add"></i>
+            </div>
+            <div class="poll-deadline-wrapping">
+                <div class="poll-deadline">
+                    <label>设定截止日期 :</label>
+                    <input name="poll-deadline" id="poll-deadline" type="date"/>
+                </div>
+            </div>
+            <div class="poll-type">
+                <label>设定投票类型 :</label>
+                <select name="poll-type" id="poll-type">
+                    <option value="1">默认单选</option>
+                    <option value="0">可以多选</option>
+                </select>
+            </div>
+            <button class="poll-submit" type="submit">提交</button>
+        </form>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= static_url %>javascripts/global_tool.js"></script>
+<script src="<%= static_url %>javascripts/wow.min.js"></script>
+<script>
+    new WOW().init();
+</script>
+<script>
+    // 修改投票设置(已经设置过选项)
+    function poll_settings_submit(){
+        var title = $("#poll-title").val();
+        var message = $("#poll-message").val();
+        var deadline = $("#poll-deadline").val();
+        var type = $("#poll-type").val();
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/?token=<%= token %>",
+            type: "PUT",
+            data: {
+                "title": title,
+                "message": message,
+                "deadline": deadline,
+                "type": type
+            },
+            success: function (data) {
+                history.go(-2);
+            }
+        });
+    }
+    // 投票设置
+    function poll_settings_first_submit(){
+        var title = $("#poll-title").val();
+        var message = $("#poll-message").val();
+        var deadline = $("#poll-deadline").val();
+        var type = $("#poll-type").val();
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/?token=<%= token %>",
+            type: "PUT",
+            data: {
+                "title": title,
+                "message": message,
+                "deadline": deadline,
+                "type": type
+            },
+            success: function (data){
+                if(data.select == 1){
+                    post_text_options();
+                }else{
+                    post_img_options();
+                }
+                history.go(-2);
+            }
+        });
+    }
+
+    function post_text_options(){
+        //post 文字选项
+        var option_num = Number(sessionStorage.getItem("option_num"));
+        for(i=1;i<=option_num;i++){
+            var content = $("#text-option-" + i).val();
+            $.ajax({
+                url: "<%= api_root %>polls/option/",
+                type: "POST",
+                data: {
+                    "poll": "<%= poll_id %>",
+                    "pos": i,
+                    "content": content
+                },
+                success: function (data) {},
+                error: function () {}
+            });
+        }
+    }
+
+    function post_img_options(){
+        //post 图片选项
+        var option_num = Number(sessionStorage.getItem("option_num"));
+        for(i=1;i<=option_num;i++){
+            var content = $("#img-option-" + i).next("img").attr("src");
+            $.ajax({
+                url: "<%= api_root %>polls/option/",
+                type: "POST",
+                data: {
+                    "poll": "<%= poll_id %>",
+                    "pos": i,
+                    "content": content
+                },
+                success: function (data) {},
+                error: function () {}
+            });
+        }
+    }
+
+    function text_option_default(){
+        //默认渲染两个文字选项
+        sessionStorage.setItem("option_num",2);
+        for(i = 1;i < 3;i ++){
+            $(".poll-option-list").append(
+                "<div class='poll-text-option'>" +
+                "<label>选项 " + i + " :</label>" +
+                "<input name='text-option-" + i + "' id='text-option-" + i + "' type='text'/>" +
+                "</div>");
+        }
+    }
+    function text_option_add() {
+        //添加文字选项按钮点击事件
+        var option_num = Number(sessionStorage.getItem("option_num"));
+        if(option_num == 10){
+            alert("最多只能添加 10 个选项！");
+        }else{
+            option_num += 1;
+            sessionStorage.setItem("option_num",option_num);
+            $(".poll-option-list").append(
+                    "<div class='poll-text-option wow fadeInUp'>" +
+                    "<label>选项 " + option_num + " :</label>" +
+                    "<input name='text-option-" + option_num + "' id='text-option-" + option_num + "' type='text'/>" +
+                    "</div>");
+        }
+    }
+    function img_option_default(){
+        //默认渲染两个图片选项
+        sessionStorage.setItem("option_num",2);
+        for(i = 1;i < 3;i ++){
+            $(".poll-option-list").append(
+                "<div class='poll-img-option option-"+ i +"'>" +
+                "<label>选项 " + i + " :</label>" +
+                "<input name='img-option-"+ i +"' id='img-option-"+ i +"' type='file'/>" +
+                "<p>选择图片</p>" +
+                "<div class='clear'></div>" +
+                "</div>");
+        }
+    }
+    function img_option_add(){
+        //添加图片选项按钮点击事件
+        var option_num = Number(sessionStorage.getItem("option_num"));
+        if(option_num == 10){
+            alert("最多只能添加 10 个选项！");
+        }else{
+        option_num += 1;
+            sessionStorage.setItem("option_num",option_num);
+            $(".poll-option-list").append(
+                "<div class='poll-img-option option-"+ option_num +"'>" +
+                "<label>选项 " + option_num + " :</label>" +
+                "<input name='img-option-"+ option_num +"' id='img-option-"+ option_num +"' type='file'/>" +
+                "<p>选择图片</p>" +
+                "<div class='clear'></div>" +
+                "</div>");
+        }
+    }
+    function text_option_details(){
+        // 文字选项展示
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/poll_options/",
+            type: "GET",
+            success: function (data) {
+                var jsonLength = data.length;
+                for(i = 0;i < jsonLength;i ++){
+                    $(".poll-option-list").append(
+                        "<div class='poll-option-details option-"+ (i+1) +"'>" +
+                        "<label>选项 "+ (i+1) +" :</label>" +
+                        "<p>"+ return2br(data[i].content) +"</p>" +
+                        "<div class='clear'></div>" +
+                        "</div>");
+                }
+                //调整行高
+                changeLabelLineHeight(jsonLength);
+            }
+        });
+    }
+    function img_option_details(){
+        // 图片选项展示
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/poll_options/",
+            type: "GET",
+            success: function (data) {
+                var jsonLength = data.length;
+                for(i = 0;i < jsonLength;i ++){
+                    $(".poll-option-list").append(
+                        "<div class='poll-option-details option-"+ (i+1) +"'>" +
+                        "<label>选项 "+ (i+1) +" :</label>" +
+                        "<img src='"+ data[i].content +"' />" +
+                        "<div class='clear'></div>" +
+                        "</div>");
+                }
+                //调整行高
+                changeLabelLineHeight(jsonLength);
+            }
+        });
+    }
+
+    $.ajax({
+        url: "<%= api_root %>polls/poll/<%= poll_id %>/",
+        type: "GET",
+        success: function (data) {
+            sessionStorage.setItem("poll_select",data.select);
+            if(data.title == null && data.message == null && data.type == null && data.deadline == null){
+                //第一次打开设置页面,设置默认值。
+                $("#poll-title").val("来投票吧！");
+                $("#poll-message").val("好奇宝宝想知道大家会有怎样的选择，好期待。");
+                $("#poll-deadline").val(get_current_date());
+                $("#poll-type").val(1);
+                if(data.select == 1){
+                    //文字投票 渲染文字选项列表
+                    text_option_default();
+                    $(".poll-option-add").children("i").attr("onclick","javascript:text_option_add();");
+                }else{
+                    //图片投票 渲染图片选项列表
+                    img_option_default();
+                    $(".poll-option-add").children("i").attr("onclick","javascript:img_option_add();");
+                }
+                //设置提交按钮引用的函数
+                $("form").attr("action","javascript:poll_settings_first_submit();");
+            }else{
+                //不是第一次设置，不能修改选项
+                $(".poll-option-add").hide();
+                $("#poll-title").val(return2br(data.title));
+                $("#poll-message").val(return2br(data.message));
+                $("#poll-deadline").val(data.deadline);
+                $("#poll-type").val(data.type);
+                //渲染选项展示列表
+                if(data.select == 1){
+                    //文字投票 渲染文字展示列表
+                    text_option_details();
+                }else{
+                    //图片投票 渲染图片展示列表
+                    img_option_details();
+                }
+                //设置提交按钮引用的函数
+                $("form").attr("action","javascript:poll_settings_submit();");
+            }
+        }
+    });
+</script>
+
+</html>

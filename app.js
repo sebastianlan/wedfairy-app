@@ -9,6 +9,7 @@ var settings = require('./settings/settings');
 
 var rsvp = require('./routes/rsvp');
 var map = require('./routes/map');
+var poll = require('./routes/poll');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
 
 app.use('/rsvp', rsvp);
 app.use('/map', map);
+app.use('/poll', poll);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

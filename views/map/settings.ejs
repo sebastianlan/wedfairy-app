@@ -29,7 +29,7 @@
         localStorage.setItem("map_address",$("#map-address").val());
         localStorage.setItem("map_message",$("#map-message").val());
         //跳转到地图标注页面
-        var url = "<%= composer_host %>" + "map/mark/";
+        var url = "<%= composer_host %>map/mark/";
         window.location.href = encodeURI(url);
     }
     //「确定」按钮点击事件

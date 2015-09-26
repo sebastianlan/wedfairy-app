@@ -97,9 +97,9 @@
                 history.back();
             },
             error: function () {
-                alert("网络开了会小差，请稍后再试\nಥ_ಥ");
+                alert("呜呼 ಥ_ಥ ，报名的人太多啦，小盒子建议你请稍后再试。");
             }
-        })
+        });
     }
     $.ajax({
         url: "<%= api_root %>rsvps/rsvp/<%= rsvp_id %>/",

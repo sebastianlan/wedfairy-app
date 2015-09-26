@@ -38,3 +38,14 @@ function isPeople(str){
     var r =/^\+?[1-9][0-9]{0,2}$/;
     return r.test(str);
 }
+
+function changeLabelLineHeight(num){
+    for(i=1;i<=num;i++){
+        $(".option-" + i).children("label").css("line-height",$(".option-" + i).height() + "px");
+    }
+}
+function changeWrappingPaddingTop(num){
+    for(i=1;i<=num;i++){
+        $(".wrapping-" + i).css("padding-top",($(".wrapping-" + i).parent(".poll-show-option").height() - 20)/2 + "px");
+    }
+}

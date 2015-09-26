@@ -28,8 +28,8 @@ body{
   div{
     label{
       @extend .appLabel;
-      width:100%;height:40%;margin:0;
-      color:#a3a3a3;
+      width:100%;height:40%;
+      margin:0;color:#a3a3a3;
     }
   }
 }
@@ -95,45 +95,69 @@ body{
 }
 .poll-option-list{
   width:100%;height:auto;
-  margin-top:52.32px;padding:0 5%;
+  margin-top:52.32px;padding:0 5.07%;
   background-color:#fff;
 }
+//文字选项
 .poll-text-option{
   width:100%;height:52.32px;
   border-bottom:2px solid #f3f3f4;
   text-align:left;
   label{
     @extend .appLabel;
-    width:20%;
-    line-height:52.32px;
+    margin:0;line-height:52.32px;
   }
   input{
     @extend .appInput;
-    width:78%;
-    margin-left:4px;
+    width:78%;height:48px;
+    margin-left:3px;
   }
 }
+//图片选项
 .poll-img-option{
-  width:100%;height:auto;
+  position:relative;width:100%;height:auto;
   border-bottom:2px solid #f3f3f4;
-  text-align:left;
   label{
     @extend .appLabel;
-    width:32.30%;float:left;
-    line-height:52.32px;
-
+    margin:0;line-height:52.32px;float:left;
   }
   input{
     @extend .appInput;
-    width:67.70%;float:left;
+    position:absolute;width:78%;height:100%;
+    margin-left:3px;left:48px;float:left;
+    z-index:1;opacity:0;
+  }
+  p{
+    display:block;position:absolute;
+    width:100%;height:52.32px;margin:0;
+    line-height:52.32px;text-align:center;
+  }
+  img{
+    width:70%;height:auto;margin-left:-35px;padding:5px;
   }
 }
+//选项详情
+.poll-option-details{
+  position:relative;width:100%;height:auto;
+  border-bottom:2px solid #f3f3f4;
+  label{
+    @extend .appLabel;
+    margin:0;float:left;
+  }
+  p{
+    display:block;width:78%;height:auto;
+    margin:10px 5px;float:left;
+  }
+  img{
+    width:70%;height:auto;margin-left:-35px;padding:5px;
+  }
+}
+//添加选项按钮
 .poll-option-add{
   width:100%;height:52.32px;
   background-color:#fff;
   i{
-    font-size:21.12px;line-height:52.32px;
-    color:$appSubmitColor;
+    font-size:21.12px;line-height:52.32px;color:$appSubmitColor;
   }
 }
 .poll-deadline-wrapping{
@@ -155,14 +179,13 @@ body{
 }
 .poll-type{
   width:100%;height:52.80px;padding:0 5%;
-  background-color:#fff;text-align:left;line-height:52.80px;
+  background-color:#fff;text-align:left;line-height:50.80px;
   label{
     @extend .appLabel;
   }
 }
 #poll-type{
-  @extend .appInput;
-  width:60%;
+  @extend #poll-deadline;
 }
 //「投票」投票页面
 .poll-notice{
@@ -177,20 +200,34 @@ body{
 }
 .poll-show-option{
   width:100%;height:auto;padding:13.44px 0;
-  input{
-    width:15%;float:left;
-    @extend .appInput;
-  }
   label{
-    width:85%;float:left;
+    width:85%;margin:0;float:left;
   }
   img{
     width:70%;height:auto;float:left;
   }
 }
-
+.radio-wrapping,.checkbox-wrapping{
+  width:15%;float:left;
+}
+.radio,.checkbox{
+  position:relative;width:20px;height:20px;
+  border-radius:100%;border:1px solid $highlightColor;
+  background:#fff;margin:0 auto;
+  label{
+    display:block;position:absolute;top:2px;left:2px;
+    width:14px;padding-left:14px;height:14px;min-height:14px;
+    border-radius:100%;background:#fff;cursor:pointer;
+    transition: all 0.5s ease;z-index: 1;
+  }
+}
+.checkbox input[type=checkbox]:checked + label {
+  background: $highlightColor;
+}
+.radio input[type=radio]:checked + label {
+  background: $highlightColor;
+}
 //「投票」投票结果页面
-
 .poll-result-list{
   width:74.40%;height:auto;
   margin:41.76px auto 0;
@@ -198,23 +235,22 @@ body{
 .poll-result-option{
   width:100%;height:auto;
   margin-bottom:28.32px;
+  text-align:left;
 }
 .result-option-left{
-  width:30%;float:left;
-  font-size:28.8px;line-height:25px;text-align:left;
+  width:20%;float:left;
+  font-size:25px;line-height:25px;
   word-wrap:break-word;word-break:break-all;
 }
 .result-option-color{
   width:10px;height:10px;
-  margin-top:5px;margin-left:10px;
+  margin-top:2px;margin-left:2px;
 }
 .result-option-right{
-  width:70%;float:left;
-  padding-left:10px;
-  text-align:left;
+  width:80%;float:left;
+  padding-left:5px;
 }
-
-
+//条形图表
 .poll-result-chart{
   width:84.00%;height:auto;
   margin:39.84px auto 54.24px;
@@ -254,17 +290,15 @@ body{
 }
 
 .voter-header{
-  width:100%;height:57.60px;
-  padding:39.36px 4.8% 0;
-  text-align:left;
-  background-color:#fff;
+  width:100%;height:57.60px;padding:39.36px 4.8% 0;
+  text-align:left;background-color:#fff;
   i{
     color:#ff607d;
   }
 }
 .voter-list{
   width:100%;height:auto;
-  padding:0 4.8%;
+  padding:0 4.8%;font-size:13px;
   background-color:#fff;
 }
 .voter-details{
@@ -290,7 +324,7 @@ body{
   }
 }
 .details-date{
-  font-size:14px;line-height:10px;color:#a2a2a2;
+  font-size:12px;line-height:10px;color:#a2a2a2;
 }
 
 

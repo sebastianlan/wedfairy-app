@@ -5,6 +5,9 @@ input[type="date"], select {
   -webkit-appearance: none;
   background-color: transparent !important; }
 
+input[type="radio"], input[type="checkbox"] {
+  -webkit-appearance: none; }
+
 .appHeader, .map-header {
   width: 100%;
   height: 190px;
@@ -60,6 +63,14 @@ input[type="date"], select {
   height: auto;
   margin: 36px auto;
   font-size: 12px; }
+
+.list-end-white {
+  width: 100%;
+  height: auto;
+  margin-top: -11.04px;
+  padding: 36px 0;
+  font-size: 12px;
+  background-color: #fff; }
 
 .clear {
   clear: both; }

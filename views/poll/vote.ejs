@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/poll.css">
+    <link rel="stylesheet" href="<%= static_url %>stylesheets/animate.css">
+</head>
+<body>
+    <div class="container poll-header">
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+    </div>
+    <div class="container poll-body">
+        <div class="poll-total">
+            <div class="poll-total-left">
+                <label>投票截止日期</label>
+                <label class="highlight"></label>
+            </div>
+            <div class="poll-total-right">
+                <label>参与投票人数</label>
+                <label class="highlight"></label>
+            </div>
+        </div>
+        <div class="poll-title"></div>
+        <div class="poll-message">
+            <i class="iconfont icon-quote-left quote-left"></i>
+            <i class="iconfont icon-quote-right quote-right"></i>
+        </div>
+        <div class="poll-notice wow bounceInUp">您来晚了，投票已经结束啦<br/>∑(っ °Д °;)っ</div>
+        <form action="javascript:poll_vote_submit();">
+            <button class="poll-submit" type="submit">提交</button>
+        </form>
+    </div>
+</body>
+<script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= static_url %>javascripts/global_tool.js"></script>
+<script src="<%= static_url %>javascripts/wow.min.js"></script>
+<script>
+    new WOW().init();
+</script>
+<script>
+    function poll_vote_submit(){
+        //获取用户头像和昵称
+        $.ajax({
+            url: "<%= vu_api_root %>",
+            type: "GET",
+            headers: {Authorization: "Token <%= token %>"},
+            success: function(data) {
+                sessionStorage.setItem("poll_avatar",data[0].profile.avatar);
+                sessionStorage.setItem("poll_name",data[0].profile.name);
+                post_data();
+            },
+            error: function () {
+                sessionStorage.setItem("poll_avatar","http://up.img.8yinhe.cn/o_19vdmapepac610dm1kgdedj1tlj7.png?imageView2/2/w/1280/q/85");
+                sessionStorage.setItem("poll_name","佚名");
+                post_data();
+            }
+        })
+    }
+    function post_data(){
+        if(+sessionStorage.getItem("poll_type")){
+            //post 单选
+            var option = $(":radio[name='radio-input']:checked").val();
+            var avatar = sessionStorage.getItem("poll_avatar");
+            var name = sessionStorage.getItem("poll_name");
+            $.ajax({
+                url: "<%= api_root %>polls/vote/",
+                type: "POST",
+                data: {
+                    "poll": "<%= poll_id %>",
+                    "option": option,
+                    "avatar": avatar,
+                    "name": name
+                },
+                success: function (data) {
+                    alert("投票成功，小盒子谢谢您的参与！");
+                    history.back();
+                },
+                error: function () {
+                    alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
+                }
+            });
+        }else{
+            //post 多选
+            var n = 0;//计算需要 post 多少次
+            $(":checkbox[name='checkbox-input']").each(function() {
+                if (this.checked) {
+                    n++;
+                }
+            });
+            $(":checkbox[name='checkbox-input']").each(function(){
+                if(this.checked){
+                    var option = $(this).val();
+                    var avatar = sessionStorage.getItem("poll_avatar");
+                    var name = sessionStorage.getItem("poll_name");
+                    $.ajax({
+                        url: "<%= api_root %>polls/vote/",
+                        type: "POST",
+                        data: {
+                            "poll": "<%= poll_id %>",
+                            "option": option,
+                            "avatar": avatar,
+                            "name": name
+                        },
+                        error: function () {
+                            alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
+                            return false;
+                        },
+                        success: function() {
+                            n--;
+                            if (n == 0) {
+                                alert("投票成功，小盒子谢谢您的参与！");
+                                history.back();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+    $.ajax({
+        url: "<%= api_root %>polls/poll/<%= poll_id %>/",
+        type: "GET",
+        success: function (data) {
+            //写入「截止日期」「投票人数」「标题」「开场白」
+            $(".poll-total-left").children(".highlight").text(data.deadline);
+            $(".poll-total-right").children(".highlight").text(data.count + " 人");
+            $(".poll-title").html(return2br(data.title));
+            $(".poll-message").append(return2br(data.message));
+            sessionStorage.setItem("poll_select",data.select);
+            sessionStorage.setItem("poll_type",data.type);
+            if(Date.parse(data.deadline) < Date.parse(get_current_date())){
+                //隐藏 form，显示提示信息
+                $("form").slideUp("slow");
+                $(".poll-notice").show();
+            }
+            print_option_list();
+        }
+    });
+    function print_option_list(){
+        //渲染选项卡
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/poll_options/",
+            type: "GET",
+            success: function (data) {
+                var jsonLength = data.length;
+                var poll_select = Number(sessionStorage.getItem("poll_select"));
+                var poll_type = Number(sessionStorage.getItem("poll_type"));
+                if(poll_select == 1 && poll_type == 1){
+                    //文字投票，单选按钮
+                    $("form").prepend("<div class='poll-radio'></div>");
+                    for(i = 0;i < jsonLength;i ++){
+                        $(".poll-radio").append(
+                                "<div class='poll-show-option'>" +
+                                "<div class='radio-wrapping wrapping-"+(i+1)+"'>" +
+                                "<div class='radio'>" +
+                                "<input type='radio' id='radio-input-"+(i+1)+"' name='radio-input' value='"+data[i].id+"' />" +
+                                "<label for='radio-input-"+(i+1)+"'></label>" +
+                                "</div>" +
+                                "</div>" +
+                                "<label>"+data[i].content+"</label>" +
+                                "<div class='clear'></div>" +
+                                "</div>");
+                    }
+                }else if(poll_select == 1 && poll_type == 0){
+                    //文字投票，多选按钮
+                    $("form").prepend("<div class='poll-checkbox'></div>");
+                    for(i = 0;i < jsonLength;i ++){
+                        $(".poll-checkbox").append(
+                                "<div class='poll-show-option'>" +
+                                "<div class='checkbox-wrapping wrapping-"+(i+1)+"'>" +
+                                "<div class='checkbox'>" +
+                                "<input type='checkbox' id='checkbox-input-"+(i+1)+"' name='checkbox-input' value='"+data[i].id+"' />" +
+                                "<label for='checkbox-input-"+(i+1)+"'></label>" +
+                                "</div>" +
+                                "</div>" +
+                                "<label>"+data[i].content+"</label>" +
+                                "<div class='clear'></div>" +
+                                "</div>");
+                    }
+                }else if(poll_select == 0 && poll_type == 1){
+                    //图片投票，单选按钮
+                    $("form").prepend("<div class='poll-radio'></div>");
+                    for(i = 0;i < jsonLength;i ++){
+                        $(".poll-radio").append(
+                                "<div class='poll-show-option'>" +
+                                "<div class='radio-wrapping wrapping-"+(i+1)+"'>" +
+                                "<div class='radio'>" +
+                                "<input type='radio' id='radio-input-"+(i+1)+"' name='radio-input' value='"+data[i].id+"' />" +
+                                "<label for='radio-input-"+(i+1)+"'></label>" +
+                                "</div>" +
+                                "</div>" +
+                                "<img src='"+data[i].content+"'/>" +
+                                "<div class='clear'></div>" +
+                                "</div>");
+                    }
+                }else if(poll_select == 0 && poll_type == 0){
+                    //图片投票，多选按钮
+                    $("form").prepend("<div class='poll-checkbox'></div>");
+                    for(i = 0;i < jsonLength;i ++){
+                        $(".poll-checkbox").append(
+                                "<div class='poll-show-option'>" +
+                                "<div class='checkbox-wrapping wrapping-"+(i+1)+"'>" +
+                                "<div class='checkbox'>" +
+                                "<input type='checkbox' id='checkbox-input-"+(i+1)+"' name='checkbox-input' value='"+data[i].id+"' />" +
+                                "<label for='checkbox-input-"+(i+1)+"'></label>" +
+                                "</div>" +
+                                "</div>" +
+                                "<img src='"+data[i].content+"'/>" +
+                                "<div class='clear'></div>" +
+                                "</div>");
+                    }
+                }else{
+                    alert("您来得太早了，故事主人还没设置呢！");
+                    $("form").slideUp("slow");
+                }
+                changeWrappingPaddingTop(jsonLength);
+            }
+        });
+    }
+</script>
+</html>
