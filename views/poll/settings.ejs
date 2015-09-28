@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container poll-header">
-        <a href="javascript:history.go(-2);"><i class="iconfont icon-arrow-left"></i></a>
+        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
     </div>
     <div class="container poll-body">
         <form>
@@ -74,7 +74,7 @@
                 "type": type
             },
             success: function (data) {
-                history.go(-2);
+                history.go(-1);
             }
         });
     }
@@ -99,7 +99,7 @@
                 }else{
                     post_img_options();
                 }
-                history.go(-2);
+                history.go(-1);
             }
         });
     }
@@ -238,47 +238,59 @@
             }
         });
     }
-
-    $.ajax({
-        url: "<%= api_root %>polls/poll/<%= poll_id %>/",
-        type: "GET",
-        success: function (data) {
-            sessionStorage.setItem("poll_select",data.select);
-            if(data.title == null && data.message == null && data.type == null && data.deadline == null){
-                //第一次打开设置页面,设置默认值。
-                $("#poll-title").val("来投票吧！");
-                $("#poll-message").val("好奇宝宝想知道大家会有怎样的选择，好期待。");
-                $("#poll-deadline").val(get_current_date());
-                $("#poll-type").val(1);
-                if(data.select == 1){
-                    //文字投票 渲染文字选项列表
-                    text_option_default();
-                    $(".poll-option-add").children("i").attr("onclick","javascript:text_option_add();");
+    function flowing(){
+        //设置流程
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/",
+            type: "GET",
+            success: function (data) {
+                sessionStorage.setItem("poll_select",data.select);
+                if(data.title == null && data.message == null && data.type == null && data.deadline == null){
+                    //第一次打开设置页面,设置默认值。
+                    $("#poll-title").val("来投票吧！");
+                    $("#poll-message").val("好奇宝宝想知道大家会有怎样的选择，好期待。");
+                    $("#poll-deadline").val(get_current_date());
+                    $("#poll-type").val(1);
+                    if(data.select == 1){
+                        //文字投票 渲染文字选项列表
+                        text_option_default();
+                        $(".poll-option-add").children("i").attr("onclick","javascript:text_option_add();");
+                    }else{
+                        //图片投票 渲染图片选项列表
+                        img_option_default();
+                        $(".poll-option-add").children("i").attr("onclick","javascript:img_option_add();");
+                    }
+                    //设置提交按钮引用的函数
+                    $("form").attr("action","javascript:poll_settings_first_submit();");
                 }else{
-                    //图片投票 渲染图片选项列表
-                    img_option_default();
-                    $(".poll-option-add").children("i").attr("onclick","javascript:img_option_add();");
+                    //不是第一次设置，不能修改选项
+                    $(".poll-option-add").hide();
+                    $("#poll-title").val(return2br(data.title));
+                    $("#poll-message").val(return2br(data.message));
+                    $("#poll-deadline").val(data.deadline);
+                    $("#poll-type").val(data.type);
+                    //渲染选项展示列表
+                    if(data.select == 1){
+                        //文字投票 渲染文字展示列表
+                        text_option_details();
+                    }else{
+                        //图片投票 渲染图片展示列表
+                        img_option_details();
+                    }
+                    //设置提交按钮引用的函数
+                    $("form").attr("action","javascript:poll_settings_submit();");
                 }
-                //设置提交按钮引用的函数
-                $("form").attr("action","javascript:poll_settings_first_submit();");
-            }else{
-                //不是第一次设置，不能修改选项
-                $(".poll-option-add").hide();
-                $("#poll-title").val(return2br(data.title));
-                $("#poll-message").val(return2br(data.message));
-                $("#poll-deadline").val(data.deadline);
-                $("#poll-type").val(data.type);
-                //渲染选项展示列表
-                if(data.select == 1){
-                    //文字投票 渲染文字展示列表
-                    text_option_details();
-                }else{
-                    //图片投票 渲染图片展示列表
-                    img_option_details();
-                }
-                //设置提交按钮引用的函数
-                $("form").attr("action","javascript:poll_settings_submit();");
             }
+        });
+    }
+    $.ajax({
+        url: "<%= api_root %>polls/poll/<%= poll_id %>/?token=<%= token %>",
+        type: "PUT",
+        data: {
+            "select":1
+        },
+        success: function(){
+            flowing();
         }
     });
 </script>
