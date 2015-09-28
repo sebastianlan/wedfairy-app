@@ -6,7 +6,8 @@ input[type="date"], select {
   background-color: transparent !important; }
 
 input[type="radio"], input[type="checkbox"] {
-  -webkit-appearance: none; }
+  -webkit-appearance: none;
+  display: none !important; }
 
 .appHeader, .map-header {
   width: 100%;

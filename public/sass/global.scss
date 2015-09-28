@@ -26,6 +26,7 @@ input[type="date"],select{
 }
 input[type="radio"],input[type="checkbox"]{
   -webkit-appearance:none;
+  display: none !important;
 }
 .appHeader{
   width:100%;height:190px;padding-top:23px;
