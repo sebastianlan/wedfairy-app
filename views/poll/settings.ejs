@@ -99,7 +99,6 @@
                 }else{
                     post_img_options();
                 }
-                history.go(-1);
             }
         });
     }
@@ -117,7 +116,7 @@
                     "pos": i,
                     "content": content
                 },
-                success: function (data) {},
+                success: function (data) {history.go(-1);},
                 error: function () {}
             });
         }
@@ -136,7 +135,7 @@
                     "pos": i,
                     "content": content
                 },
-                success: function (data) {},
+                success: function (data) {history.go(-1);},
                 error: function () {}
             });
         }
