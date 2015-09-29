@@ -52,6 +52,7 @@
     </div>
 </body>
 <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= tat_static %>javascripts/plugins/moment.js"></script>
 <script src="<%= static_url %>javascripts/global_tool.js"></script>
 <script src="<%= static_url %>javascripts/wow.min.js"></script>
 <script>
@@ -73,7 +74,7 @@
                 "deadline": deadline,
                 "type": type
             },
-            success: function (data) {
+            success: function () {
                 history.go(-1);
             }
         });
@@ -116,7 +117,7 @@
                     "pos": i,
                     "content": content
                 },
-                success: function (data) {history.go(-1);},
+                success: function () {history.go(-1);},
                 error: function () {}
             });
         }
@@ -135,7 +136,7 @@
                     "pos": i,
                     "content": content
                 },
-                success: function (data) {history.go(-1);},
+                success: function () {history.go(-1);},
                 error: function () {}
             });
         }
@@ -248,7 +249,7 @@
                     //第一次打开设置页面,设置默认值。
                     $("#poll-title").val("来投票吧！");
                     $("#poll-message").val("好奇宝宝想知道大家会有怎样的选择，好期待。");
-                    $("#poll-deadline").val(get_current_date());
+                    $("#poll-deadline").val(moment().add(1, 'months').format('YYYY-MM-DD'));
                     $("#poll-type").val(1);
                     if(data.select == 1){
                         //文字投票 渲染文字选项列表

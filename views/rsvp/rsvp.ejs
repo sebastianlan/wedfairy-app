@@ -30,6 +30,7 @@
     </div>
 </body>
 <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= tat_static %>javascripts/plugins/moment.js"></script>
 <script src="<%= static_url %>javascripts/global_tool.js"></script>
 <script src="<%= static_url %>javascripts/wow.min.js"></script>
 <script>
@@ -110,7 +111,7 @@
             //获取数据插入页面
             $(".highlight").text(data.deadline);
             $(".rsvp-rsvp-message").html(return2br(data.message));
-            if(Date.parse(data.deadline) < Date.parse(get_current_date())){
+            if(Date.parse(data.deadline) < Date.parse(moment().format('YYYY-MM-DD'))){
                 //隐藏 form，显示提示信息
                 $("form").slideUp("slow");
                 $(".rsvp-rsvp-notice").show();

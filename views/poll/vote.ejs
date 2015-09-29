@@ -34,6 +34,7 @@
     </div>
 </body>
 <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+<script src="<%= tat_static %>javascripts/plugins/moment.js"></script>
 <script src="<%= static_url %>javascripts/global_tool.js"></script>
 <script src="<%= static_url %>javascripts/wow.min.js"></script>
 <script>
@@ -130,7 +131,7 @@
             $(".poll-message").append(return2br(data.message));
             sessionStorage.setItem("poll_select",data.select);
             sessionStorage.setItem("poll_type",data.type);
-            if(Date.parse(data.deadline) < Date.parse(get_current_date())){
+            if(Date.parse(data.deadline) < Date.parse(moment().format('YYYY-MM-DD'))){
                 //隐藏 form，显示提示信息
                 $("form").slideUp("slow");
                 $(".poll-notice").show();
@@ -212,7 +213,7 @@
                                 "</div>");
                     }
                 }else{
-                    alert("您来得太早了，故事主人还没设置呢！");
+                    alert("您来得太早了，故事主人还没想好问题呢！");
                     $("form").slideUp("slow");
                 }
                 changeWrappingPaddingTop(jsonLength);

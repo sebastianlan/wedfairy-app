@@ -6,22 +6,6 @@ function return2br(str){
         return str.replace(/\r?\n/g,"<br/>");
     }
 }
-//获取当前日期函数
-function get_current_date(){
-    var date = new Date();
-    var current_year = date.getFullYear();
-    if(date.getMonth() < 9){
-        var current_month = "0" + (date.getMonth() + 1);
-    }else{
-        var current_month = date.getMonth() + 1;
-    }
-    if(date.getDate() < 10){
-        var current_date = "0" + date.getDate();
-    }else{
-        var current_date = date.getDate();
-    }
-    return current_year + "-" + current_month + "-" + current_date;
-}
 //验证字符串是否为手机或者固话
 //规则说明：
 //1、可以是1开头的11位数字（手机号）
