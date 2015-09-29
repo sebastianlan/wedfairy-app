@@ -32,13 +32,17 @@ router.get('/:poll_id/settings/', function(req, res, next) {
     }
 });
 
-router.get('/:poll_id', function(req, res) {
+router.get('/:poll_id/', function(req, res,next) {
     var poll_id = req.params.poll_id;
     var token = req.query.token;
-    res.render('poll/vote', {
-        poll_id: poll_id,
-        token: token
-    });
+    if(token){
+        res.render('poll/vote', {
+            poll_id: poll_id,
+            token: token
+        });
+    }else{
+        next();
+    }
 });
 
 router.get('/:poll_id/dashboard/', function(req, res, next) {
