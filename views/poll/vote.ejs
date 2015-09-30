@@ -217,6 +217,15 @@
                     $("form").slideUp("slow");
                 }
                 changeWrappingPaddingTop(jsonLength);
+                //选项卡点击事件
+                $(".poll-show-option").click(function (){
+                    $(this).find('input[type=radio]').prop('checked', true);
+                    if($(this).find('input[type=checkbox]').is(':checked')){
+                        $(this).find('input[type=checkbox]').prop('checked',false);
+                    }else{
+                        $(this).find('input[type=checkbox]').prop('checked',true);
+                    }
+                });
             }
         });
     }
