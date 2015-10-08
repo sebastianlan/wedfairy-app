@@ -42,20 +42,38 @@
 </script>
 <script>
     function poll_vote_submit(){
-        //获取用户头像和昵称
+        //获取用户 id 头像和昵称
         $.ajax({
             url: "<%= vu_api_root %>",
             type: "GET",
             headers: {Authorization: "Token <%= token %>"},
             success: function(data) {
+                sessionStorage.setItem("poll_user",data[0].id);
                 sessionStorage.setItem("poll_avatar",data[0].profile.avatar);
                 sessionStorage.setItem("poll_name",data[0].profile.name);
-                post_data();
+                //本地验证投票用户唯一性
+                if(localStorage.getItem("poll_<%= poll_id %>_voted") == data[0].id){
+                    alert("您已经投过票了，不能太多哟！");
+                }else{
+                    //api 验证投票用户唯一性
+                    $.ajax({
+                        url: "<%= api_root %>polls/poll/<%= poll_id %>/voted/" + sessionStorage.getItem("poll_user") + "/",
+                        type: "GET",
+                        success: function (data) {
+                            if(data.length == 0){
+                                post_data();
+                            }else{
+                                alert("您已经投过票了，不能太多哟！");
+                            }
+                        },
+                        error: function () {
+                            alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
+                        }
+                    });
+                }
             },
             error: function () {
-                sessionStorage.setItem("poll_avatar","http://up.img.8yinhe.cn/o_19vdmapepac610dm1kgdedj1tlj7.png?imageView2/2/w/1280/q/85");
-                sessionStorage.setItem("poll_name","佚名");
-                post_data();
+                alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
             }
         })
     }
@@ -63,6 +81,7 @@
         if(+sessionStorage.getItem("poll_type")){
             //post 单选
             var option = $(":radio[name='radio-input']:checked").val();
+            var user_id = sessionStorage.getItem("poll_user");
             var avatar = sessionStorage.getItem("poll_avatar");
             var name = sessionStorage.getItem("poll_name");
             $.ajax({
@@ -71,10 +90,12 @@
                 data: {
                     "poll": "<%= poll_id %>",
                     "option": option,
+                    "user_id": user_id,
                     "avatar": avatar,
                     "name": name
                 },
                 success: function (data) {
+                    localStorage.setItem("poll_<%= poll_id %>_voted",sessionStorage.getItem("poll_user"));
                     alert("投票成功，小盒子谢谢您的参与！");
                     history.back();
                 },
@@ -93,6 +114,7 @@
             $(":checkbox[name='checkbox-input']").each(function(){
                 if(this.checked){
                     var option = $(this).val();
+                    var user_id = sessionStorage.getItem("poll_user");
                     var avatar = sessionStorage.getItem("poll_avatar");
                     var name = sessionStorage.getItem("poll_name");
                     $.ajax({
@@ -101,6 +123,7 @@
                         data: {
                             "poll": "<%= poll_id %>",
                             "option": option,
+                            "user_id": user_id,
                             "avatar": avatar,
                             "name": name
                         },
@@ -111,6 +134,7 @@
                         success: function() {
                             n--;
                             if (n == 0) {
+                                localStorage.setItem("poll_<%= poll_id %>_voted",sessionStorage.getItem("poll_user"));
                                 alert("投票成功，小盒子谢谢您的参与！");
                                 history.back();
                             }
