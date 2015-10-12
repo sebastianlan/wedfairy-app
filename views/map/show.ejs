@@ -58,6 +58,8 @@
             var map = new BMap.Map("baidu-map");
             var point = new BMap.Point(data.map_lng,data.map_lat);
             map.centerAndZoom(point,15);
+            //禁止地图拖拽
+            map.disableDragging();
             //创建地图标注
             var marker = new BMap.Marker(point);
             //将标注添加到地图中
