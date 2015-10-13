@@ -49,8 +49,16 @@
             headers: {Authorization: "Token <%= token %>"},
             success: function(data) {
                 sessionStorage.setItem("poll_user",data[0].id);
-                sessionStorage.setItem("poll_avatar",data[0].profile.avatar);
-                sessionStorage.setItem("poll_name",data[0].profile.name);
+                if(data[0].profile.avatar == null || data[0].profile.avatar == ""){
+                    sessionStorage.setItem("poll_avatar","http://up.img.8yinhe.cn/o_19vdmapepac610dm1kgdedj1tlj7.png?imageView2/2/w/1280/q/85");
+                }else{
+                    sessionStorage.setItem("poll_avatar",data[0].profile.avatar);
+                }
+                if(data[0].profile.name == null || data[0].profile.name == ""){
+                    sessionStorage.setItem("poll_name","某神秘用户");
+                }else{
+                    sessionStorage.setItem("poll_name",data[0].profile.name);
+                }
                 //本地验证投票用户唯一性
                 if(localStorage.getItem("poll_<%= poll_id %>_voted") == data[0].id){
                     alert("您已经投过票了，不能太多哟！");
