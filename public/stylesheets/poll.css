@@ -55,7 +55,7 @@ input[type="radio"], input[type="checkbox"] {
 .appLabel, .poll-total div label, .poll-text-option label, .poll-img-option label, .poll-option-details label, .poll-deadline label, .poll-type label, .voter-details div label {
   font-weight: normal; }
 
-.highlight, .poll-notice {
+.highlight {
   color: #ff607d !important;
   font-weight: bold !important; }
 
@@ -273,12 +273,6 @@ body {
   background-color: #fff;
   text-align: left;
   line-height: 50.80px; }
-
-.poll-notice {
-  width: 100%;
-  height: auto;
-  padding: 52.8px 36px;
-  display: none; }
 
 .poll-radio, .poll-checkbox {
   width: 84%;

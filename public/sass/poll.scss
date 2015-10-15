@@ -188,12 +188,6 @@ body{
   @extend #poll-deadline;
 }
 //「投票」投票页面
-.poll-notice{
-  @extend .highlight;
-  width:100%;height:auto;
-  padding:52.8px 36px;
-  display:none;
-}
 .poll-radio,.poll-checkbox{
   width:84%;height:auto;text-align:left;
   margin:41.28px auto 5.76px;padding-left:5%;

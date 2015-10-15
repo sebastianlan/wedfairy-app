@@ -3,7 +3,6 @@
 <head>
     <% include ../includes/metadata %>
     <link rel="stylesheet" href="<%= static_url %>stylesheets/poll.css">
-    <link rel="stylesheet" href="<%= static_url %>stylesheets/animate.css">
     <% include ../includes/production %>
     <script src="<%= tat_static %>javascripts/vendor/modernizr-2.7.1.min.js"></script>
 </head>
@@ -27,7 +26,6 @@
             <i class="iconfont icon-quote-left quote-left"></i>
             <i class="iconfont icon-quote-right quote-right"></i>
         </div>
-        <div class="poll-notice wow bounceInUp">您来晚了，投票已经结束啦<br/>∑(っ °Д °;)っ</div>
         <form action="javascript:poll_vote_submit();">
             <button class="poll-submit" type="submit">提交</button>
         </form>
@@ -36,13 +34,32 @@
 <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
 <script src="<%= tat_static %>javascripts/plugins/moment.js"></script>
 <script src="<%= static_url %>javascripts/global_tool.js"></script>
-<script src="<%= static_url %>javascripts/wow.min.js"></script>
 <script>
-    new WOW().init();
-</script>
-<script>
-    function poll_vote_submit(){
-        //获取用户 id 头像和昵称
+    // 主流程
+    $.ajax({
+        url: "<%= api_root %>polls/poll/<%= poll_id %>/",
+        type: "GET",
+        success: function (data) {
+            //写入「截止日期」「投票人数」「标题」「开场白」
+            $(".poll-total-left").children(".highlight").text(data.deadline);
+            $(".poll-total-right").children(".highlight").text(data.count + " 人");
+            $(".poll-title").html(return2br(data.title));
+            $(".poll-message").append(return2br(data.message));
+            sessionStorage.setItem("poll_select",data.select);
+            sessionStorage.setItem("poll_type",data.type);
+            // 验证用户是否投过票了
+            user_vote_verification();
+            // 判断是否过了投票截止日期
+            if(Date.parse(data.deadline) < Date.parse(moment().format('YYYY-MM-DD'))){
+                print_poll_result();
+            }else{
+                print_option_list();
+            }
+        }
+    });
+
+    function user_vote_verification(){
+        // 获取用户 id 头像和昵称
         $.ajax({
             url: "<%= vu_api_root %>",
             type: "GET",
@@ -61,17 +78,17 @@
                 }
                 //本地验证投票用户唯一性
                 if(localStorage.getItem("poll_<%= poll_id %>_voted") == data[0].id){
-                    alert("您已经投过票了，不能太多哟！");
+                    //已经投过票了，显示投票结果
+                    print_poll_result();
                 }else{
                     //api 验证投票用户唯一性
                     $.ajax({
                         url: "<%= api_root %>polls/poll/<%= poll_id %>/voted/" + sessionStorage.getItem("poll_user") + "/",
                         type: "GET",
                         success: function (data) {
-                            if(data.length == 0){
-                                post_data();
-                            }else{
-                                alert("您已经投过票了，不能太多哟！");
+                            if(data.length != 0){
+                                //已经投过票了，显示投票结果
+                                print_poll_result();
                             }
                         },
                         error: function () {
@@ -83,94 +100,69 @@
             error: function () {
                 alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
             }
-        })
+        });
     }
-    function post_data(){
-        if(+sessionStorage.getItem("poll_type")){
-            //post 单选
-            var option = $(":radio[name='radio-input']:checked").val();
-            var user_id = sessionStorage.getItem("poll_user");
-            var avatar = sessionStorage.getItem("poll_avatar");
-            var name = sessionStorage.getItem("poll_name");
-            $.ajax({
-                url: "<%= api_root %>polls/vote/",
-                type: "POST",
-                data: {
-                    "poll": "<%= poll_id %>",
-                    "option": option,
-                    "user_id": user_id,
-                    "avatar": avatar,
-                    "name": name
-                },
-                success: function (data) {
-                    localStorage.setItem("poll_<%= poll_id %>_voted",sessionStorage.getItem("poll_user"));
-                    alert("投票成功，小盒子谢谢您的参与！");
-                    history.back();
-                },
-                error: function () {
-                    alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
+
+    function print_poll_result(){
+        // 隐藏 form，显示投票结果
+        $("form").slideUp("slow");
+        $(".poll-body").append("<div class='poll-result-list'></div><div class='poll-result-chart'></div>");
+        $.ajax({
+            url: "<%= api_root %>polls/poll/<%= poll_id %>/poll_options/",
+            type: "GET",
+            success: function (data){
+                sessionStorage.setItem("votes_max",0);
+                for(i = 0;i < data.length;i ++){
+                    //渲染选项列表
+                    if(+sessionStorage.getItem("poll_select")){
+                        //文字投票
+                        $(".poll-result-list").append(
+                                "<div class='poll-result-option'>" +
+                                "<div class='result-option-left'>" + data[i].count +
+                                "<div class='result-option-color color-"+ (i+1) +"'></div>" +
+                                "</div>" +
+                                "<div class='result-option-right'>"+ data[i].content +"</div>" +
+                                "<div class='clear'></div>" +
+                                "</div>");
+                        if (data[i].count > Number(sessionStorage.getItem("votes_max"))){
+                            sessionStorage.setItem("votes_max",data[i].count);
+                        }
+                    }else{
+                        //图片投票
+                        $(".poll-result-list").append(
+                                "<div class='poll-result-option'>" +
+                                "<div class='result-option-left'>" + data[i].count +
+                                "<div class='result-option-color color-"+ (i+1) +"'></div>" +
+                                "</div>" +
+                                "<img class='result-option-right' src='"+ data[i].content +"'/>" +
+                                "<div class='clear'></div>" +
+                                "</div>");
+                        if (data[i].count > Number(sessionStorage.getItem("votes_max"))){
+                            sessionStorage.setItem("votes_max",data[i].count);
+                        }
+                    }
                 }
-            });
-        }else{
-            //post 多选
-            var n = 0;//计算需要 post 多少次
-            $(":checkbox[name='checkbox-input']").each(function() {
-                if (this.checked) {
-                    n++;
-                }
-            });
-            $(":checkbox[name='checkbox-input']").each(function(){
-                if(this.checked){
-                    var option = $(this).val();
-                    var user_id = sessionStorage.getItem("poll_user");
-                    var avatar = sessionStorage.getItem("poll_avatar");
-                    var name = sessionStorage.getItem("poll_name");
-                    $.ajax({
-                        url: "<%= api_root %>polls/vote/",
-                        type: "POST",
-                        data: {
-                            "poll": "<%= poll_id %>",
-                            "option": option,
-                            "user_id": user_id,
-                            "avatar": avatar,
-                            "name": name
-                        },
-                        error: function () {
-                            alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
-                            return false;
-                        },
-                        success: function() {
-                            n--;
-                            if (n == 0) {
-                                localStorage.setItem("poll_<%= poll_id %>_voted",sessionStorage.getItem("poll_user"));
-                                alert("投票成功，小盒子谢谢您的参与！");
-                                history.back();
+                //渲染选项图表
+                $.ajax({
+                    url: "<%= api_root %>polls/poll/<%= poll_id %>/poll_options/",
+                    type: "GET",
+                    success: function (data){
+                        if(Number(sessionStorage.getItem("votes_max")) == 0){
+                            $(".poll-result-chart").hide();
+                        }else{
+                            for(i = 0;i < data.length;i ++){
+                                var percent = data[i].count / Number(sessionStorage.getItem("votes_max")) * 100;
+                                $(".poll-result-chart").append(
+                                        "<div class='chart-bar color-"+ (i+1) +"' style='width:"+ percent +"%;'></div>"
+                                );
                             }
                         }
-                    });
-                }
-            });
-        }
-    }
-    $.ajax({
-        url: "<%= api_root %>polls/poll/<%= poll_id %>/",
-        type: "GET",
-        success: function (data) {
-            //写入「截止日期」「投票人数」「标题」「开场白」
-            $(".poll-total-left").children(".highlight").text(data.deadline);
-            $(".poll-total-right").children(".highlight").text(data.count + " 人");
-            $(".poll-title").html(return2br(data.title));
-            $(".poll-message").append(return2br(data.message));
-            sessionStorage.setItem("poll_select",data.select);
-            sessionStorage.setItem("poll_type",data.type);
-            if(Date.parse(data.deadline) < Date.parse(moment().format('YYYY-MM-DD'))){
-                //隐藏 form，显示提示信息
-                $("form").slideUp("slow");
-                $(".poll-notice").show();
+                    }
+                });
             }
-            print_option_list();
-        }
-    });
+        });
+    }
+
     function print_option_list(){
         //渲染选项卡
         $.ajax({
@@ -260,6 +252,74 @@
                 });
             }
         });
+    }
+
+    function poll_vote_submit(){
+        if(+sessionStorage.getItem("poll_type")){
+            //post 单选
+            var option = $(":radio[name='radio-input']:checked").val();
+            var user_id = sessionStorage.getItem("poll_user");
+            var avatar = sessionStorage.getItem("poll_avatar");
+            var name = sessionStorage.getItem("poll_name");
+            $.ajax({
+                url: "<%= api_root %>polls/vote/",
+                type: "POST",
+                data: {
+                    "poll": "<%= poll_id %>",
+                    "option": option,
+                    "user_id": user_id,
+                    "avatar": avatar,
+                    "name": name
+                },
+                success: function (data) {
+                    localStorage.setItem("poll_<%= poll_id %>_voted",sessionStorage.getItem("poll_user"));
+                    alert("投票成功，小盒子谢谢您的参与！");
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
+                }
+            });
+        }else{
+            //post 多选
+            var n = 0;//计算需要 post 多少次
+            $(":checkbox[name='checkbox-input']").each(function() {
+                if (this.checked) {
+                    n++;
+                }
+            });
+            $(":checkbox[name='checkbox-input']").each(function(){
+                if(this.checked){
+                    var option = $(this).val();
+                    var user_id = sessionStorage.getItem("poll_user");
+                    var avatar = sessionStorage.getItem("poll_avatar");
+                    var name = sessionStorage.getItem("poll_name");
+                    $.ajax({
+                        url: "<%= api_root %>polls/vote/",
+                        type: "POST",
+                        data: {
+                            "poll": "<%= poll_id %>",
+                            "option": option,
+                            "user_id": user_id,
+                            "avatar": avatar,
+                            "name": name
+                        },
+                        success: function() {
+                            n--;
+                            if (n == 0) {
+                                localStorage.setItem("poll_<%= poll_id %>_voted",sessionStorage.getItem("poll_user"));
+                                alert("投票成功，小盒子谢谢您的参与！");
+                                window.location.reload();
+                            }
+                        },
+                        error: function () {
+                            alert("呜呼 ಥ_ಥ ，投票的人太多啦，小盒子建议你请稍后再试。");
+                            return false;
+                        }
+                    });
+                }
+            });
+        }
     }
 </script>
 <% include ../includes/analytics %>

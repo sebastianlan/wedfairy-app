@@ -46,6 +46,7 @@
     new WOW().init();
 </script>
 <script>
+    // 主流程
     $.ajax({
         url: "<%= api_root %>polls/poll/<%= poll_id %>/",
         type: "GET",
@@ -110,11 +111,15 @@
             url: "<%= api_root %>polls/poll/<%= poll_id %>/poll_options/",
             type: "GET",
             success: function (data){
-                for(i = 0;i < data.length;i ++){
-                    var percent = data[i].count / Number(sessionStorage.getItem("votes_max")) * 100;
-                    $(".poll-result-chart").append(
-                            "<div class='chart-bar color-"+ (i+1) +" wow fadeInRight' style='width:"+ percent +"%;'></div>"
-                    );
+                if(Number(sessionStorage.getItem("votes_max")) == 0){
+                    $(".poll-result-chart").hide();
+                }else{
+                    for(i = 0;i < data.length;i ++){
+                        var percent = data[i].count / Number(sessionStorage.getItem("votes_max")) * 100;
+                        $(".poll-result-chart").append(
+                                "<div class='chart-bar color-"+ (i+1) +" wow fadeInRight' style='width:"+ percent +"%;'></div>"
+                        );
+                    }
                 }
             }
         });
