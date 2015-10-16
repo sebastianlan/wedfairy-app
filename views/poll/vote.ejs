@@ -47,10 +47,14 @@
             $(".poll-message").append(return2br(data.message));
             sessionStorage.setItem("poll_select",data.select);
             sessionStorage.setItem("poll_type",data.type);
-            // 验证用户是否投过票了
-            user_vote_verification();
             // 判断是否过了投票截止日期
             if(Date.parse(data.deadline) < Date.parse(moment().format('YYYY-MM-DD'))){
+                sessionStorage.setItem("poll_vote_disable",1);
+            }
+            // 验证用户是否投过票了
+            user_vote_verification();
+
+            if(Number(sessionStorage.getItem("poll_vote_disable")) == 1){
                 print_poll_result();
             }else{
                 print_option_list();
@@ -78,8 +82,8 @@
                 }
                 //本地验证投票用户唯一性
                 if(localStorage.getItem("poll_<%= poll_id %>_voted") == data[0].id){
-                    //已经投过票了，显示投票结果
-                    print_poll_result();
+                    //已经投过票了，在 sessionStorage 里记录一下
+                    sessionStorage.setItem("poll_vote_disable",1);
                 }else{
                     //api 验证投票用户唯一性
                     $.ajax({
@@ -87,8 +91,8 @@
                         type: "GET",
                         success: function (data) {
                             if(data.length != 0){
-                                //已经投过票了，显示投票结果
-                                print_poll_result();
+                                //已经投过票了，在 sessionStorage 里记录一下
+                                sessionStorage.setItem("poll_vote_disable",1);
                             }
                         },
                         error: function () {
