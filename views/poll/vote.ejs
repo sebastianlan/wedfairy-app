@@ -51,7 +51,6 @@
             // 判断是否过了投票截止日期
             if(Date.parse(data.deadline) < Date.parse(moment().format('YYYY-MM-DD'))){
                 window.poll_vote_disable = 1;
-                alert("已经过了投票截止日期了哟！");
             }
             // 验证用户是否投过票了
             user_vote_verification();
