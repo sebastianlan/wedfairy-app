@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<% include ../includes/html %>
+<head>
+    <% include ../includes/metadata %>
+    <% include ../includes/production %>
+    <script src="<%= tat_static %>javascripts/vendor/modernizr-2.7.1.min.js"></script>
+    <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
+    <script>
+        $(window).load(function(){
+            $.ajax({
+                url: "<%= api_root %>aidaijia_coupons/aidaijia_coupon/<%= aidaijia_coupon_id %>/",
+                type: "GET",
+                success: function (data) {
+                    window.location = data.url;
+                }
+            });
+        });
+    </script>
+</head>
+<body></body>
+<% include ../includes/analytics %>
+</html>
