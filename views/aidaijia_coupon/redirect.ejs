@@ -11,7 +11,7 @@
                 url: "<%= api_root %>aidaijia_coupons/aidaijia_coupon/<%= aidaijia_coupon_id %>/",
                 type: "GET",
                 success: function (data) {
-                    window.location = data.url;
+                    window.location.replace(data.url);
                 }
             });
         });
