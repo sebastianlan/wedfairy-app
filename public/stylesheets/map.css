@@ -18,12 +18,11 @@ input[type="radio"], input[type="checkbox"] {
 
 .appHeaderLink, .map-header a {
   display: block;
-  width: 22px;
-  height: 22px; }
+  color: #fff;
+  text-decoration: none; }
 
 .appHeaderLinkIcon, .map-header a i {
-  font-size: 22px;
-  color: #fff; }
+  font-size: 22px; }
 
 .appBody, .map-body, .map-show-body {
   width: 100%;
@@ -75,6 +74,12 @@ input[type="radio"], input[type="checkbox"] {
 
 .clear {
   clear: both; }
+
+.goback {
+  float: left; }
+
+.goto-dashboard {
+  float: right; }
 
 .map-header {
   background-color: #d667cd;

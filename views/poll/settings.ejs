@@ -9,7 +9,8 @@
 </head>
 <body>
     <div class="container poll-header">
-        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+        <a class="goback" href="javascript:history.go(-1);" ><i class="iconfont icon-arrow-left"></i></a>
+        <a class="goto-dashboard" href="javascript:goto_dashboard();">投票结果</a>
     </div>
     <div class="container poll-body">
         <form>
@@ -59,6 +60,10 @@
     new WOW().init();
 </script>
 <script>
+    function goto_dashboard(){
+        var url = "<%= composer_host %>poll/<%= poll_id %>/dashboard/?token=<%= token %>";
+        window.location.href = encodeURI(url);
+    }
     // 修改投票设置(已经设置过选项)
     function poll_settings_submit(){
         var title = $("#poll-title").val();

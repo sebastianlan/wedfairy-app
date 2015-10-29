@@ -8,7 +8,8 @@
 </head>
 <body>
     <div class="container rsvp-header">
-        <a href="javascript:history.go(-1);"><i class="iconfont icon-arrow-left"></i></a>
+        <a class="goback" href="javascript:history.go(-1);" ><i class="iconfont icon-arrow-left"></i></a>
+        <a class="goto-dashboard" href="javascript:goto_dashboard();">查看宾客</a>
     </div>
     <div class="container rsvp-body">
         <form action="javascript:rsvp_settings_submit();">
@@ -24,6 +25,10 @@
 <script src="<%= tat_static %>javascripts/vendor/jquery-2.1.1.min.js"></script>
 <script src="<%= tat_static %>javascripts/plugins/moment.js"></script>
 <script>
+    function goto_dashboard(){
+        var url = "<%= composer_host %>rsvp/<%= rsvp_id %>/dashboard/?token=<%= token %>";
+        window.location.href = encodeURI(url);
+    }
     //「提交」按钮点击事件
     function rsvp_settings_submit(){
         var message = $("#rsvp-message").val();

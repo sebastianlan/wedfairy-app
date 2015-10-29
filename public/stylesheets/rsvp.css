@@ -18,12 +18,11 @@ input[type="radio"], input[type="checkbox"] {
 
 .appHeaderLink, .rsvp-header a {
   display: block;
-  width: 22px;
-  height: 22px; }
+  color: #fff;
+  text-decoration: none; }
 
 .appHeaderLinkIcon, .rsvp-header a i {
-  font-size: 22px;
-  color: #fff; }
+  font-size: 22px; }
 
 .appBody, .rsvp-body {
   width: 100%;
@@ -75,6 +74,12 @@ input[type="radio"], input[type="checkbox"] {
 
 .clear {
   clear: both; }
+
+.goback {
+  float: left; }
+
+.goto-dashboard {
+  float: right; }
 
 body {
   background-color: #f0f0f0; }

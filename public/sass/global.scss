@@ -33,10 +33,10 @@ input[type="radio"],input[type="checkbox"]{
   background-repeat:no-repeat;background-position:center bottom;
 }
 .appHeaderLink{
-  display:block;width:22px;height:22px;
+  display:block;color:#fff;text-decoration:none;
 }
 .appHeaderLinkIcon{
-  font-size:22px;color:#fff;
+  font-size:22px;
 }
 .appBody{
   width:100%;height:auto;padding:0;
@@ -72,3 +72,5 @@ input[type="radio"],input[type="checkbox"]{
 .clear{
   clear:both;
 }
+.goback{float:left;}
+.goto-dashboard{float:right;}
