@@ -79,7 +79,8 @@ input[type="radio"], input[type="checkbox"] {
   float: left; }
 
 .goto-dashboard {
-  float: right; }
+  float: right;
+  font-weight: bold; }
 
 .map-header {
   background-color: #d667cd;
