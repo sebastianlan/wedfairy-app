@@ -107,12 +107,16 @@
             success: function (data) {
                 if (data.map_lng == null && data.map_lat == null) {
                     //api 没有坐标数据，证明用户第一次设置
+                    localStorage.setItem("map_lng",116.331398);
+                    localStorage.setItem("map_lat",39.897445);
                     $(".map-img").attr("src","<%= static_url %>images/map_img.jpg");
                 }
                 else {
                     //api 里面有数据
                     var map_lng = data.map_lng;
                     var map_lat = data.map_lat;
+                    localStorage.setItem("map_lng",map_lng);
+                    localStorage.setItem("map_lat",map_lat);
                     $(".map-img").attr("src","http://api.map.baidu.com/staticimage?center=" + map_lng + "," + map_lat + "&width=360&height=216&zoom=16");
                     map_marker_display();
                 }
